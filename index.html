@@ -92,6 +92,8 @@
   .btn.small{padding:5px 10px;font-size:12.5px;}
   .btn.danger-outline{border-color:var(--danger);color:#E3A995;}
   .btn.danger-outline:hover{background:rgba(182,91,63,0.12);}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .btn:disabled:hover{background:transparent;}
 
   .save-tag{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
   .save-dot{width:6px;height:6px;border-radius:50%;background:var(--pos-mf);display:inline-block;}
@@ -308,7 +310,8 @@
   .unassigned-chip .ac-pos{color:var(--muted);}
 
   /* TABS */
-  .tabs{display:flex;gap:6px;margin:28px 0 14px;flex-wrap:wrap;}
+  .tabs-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:28px 0 14px;flex-wrap:wrap;}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;}
   .tab-btn{
     font-family:'Barlow Condensed',sans-serif;
     font-weight:600;
@@ -609,15 +612,15 @@
 
   <div class="top-controls">
     <div class="controls-left">
-      <button class="btn ghost" id="clearStartersBtn">Clear Starting XI</button>
-      <button class="btn ghost" id="compareBtn">Compare players</button>
       <button class="btn" id="addBtn">Add player</button>
+      <button class="btn ghost" id="clearStartersBtn">Clear Starting XI</button>
     </div>
     <div class="controls-right">
       <span class="save-tag"><span class="save-dot"></span><span id="saveStatus" class="ok">Saved</span></span>
       <button class="btn ghost" id="exportBtn">Export backup</button>
       <button class="btn ghost" id="importBtn">Import backup</button>
       <input type="file" id="importFile" accept="application/json,.json" style="display:none;">
+      <button class="btn danger-outline" id="resetAllBtn">Reset everything</button>
     </div>
   </div>
 
@@ -789,7 +792,10 @@
     <div class="unassigned-row" id="unassignedRow"></div>
   </section>
 
-  <div class="tabs" id="tabs"></div>
+  <div class="tabs-row">
+    <div class="tabs" id="tabs"></div>
+    <button class="btn ghost" id="compareBtn">Compare players</button>
+  </div>
   <div class="tab-hint" id="tabHint"></div>
   <div class="list-controls">
     <input type="text" id="playerSearch" placeholder="Search players by name...">
@@ -846,6 +852,21 @@
       <div class="editor-actions">
         <input type="text" id="editorNameInput" placeholder="Name this formation, e.g. My 4-3-3">
         <button class="btn primary" id="editorSaveBtn">Save formation</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="resetOverlay">
+    <div class="modal-box">
+      <div class="modal-message">
+        This will permanently erase <strong>every player, formation choice, and wage setting</strong>. Your saved custom formations will be kept. There is no undo — export a backup first if you're not sure.
+        <br><br>
+        Type <strong>RESET</strong> below to confirm.
+      </div>
+      <input type="text" id="resetConfirmInput" placeholder="Type RESET" style="width:100%;margin-bottom:14px;color:var(--text);background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;">
+      <div class="modal-actions">
+        <button class="btn ghost" id="resetCancelBtn">Cancel</button>
+        <button class="btn danger-outline" id="resetConfirmBtn" disabled>Reset everything</button>
       </div>
     </div>
   </div>
@@ -1190,6 +1211,51 @@
     actions.appendChild(cancelBtn);
     actions.appendChild(okBtn);
     $('modalOverlay').classList.add('open');
+  }
+
+  function openResetModal(){
+    showConfirm(
+      'This will permanently erase every player, formation choice, and wage setting. Your saved custom formations will be kept. This cannot be undone.',
+      function(){
+        $('resetConfirmInput').value = '';
+        $('resetConfirmBtn').disabled = true;
+        $('resetOverlay').classList.add('open');
+        $('resetConfirmInput').focus();
+      }
+    );
+  }
+
+  function closeResetModal(){
+    $('resetOverlay').classList.remove('open');
+  }
+
+  function checkResetConfirmInput(){
+    var typed = $('resetConfirmInput').value.trim().toUpperCase();
+    $('resetConfirmBtn').disabled = (typed !== 'RESET');
+  }
+
+  function performFullReset(){
+    var keptCustomFormations = state.customFormations || {};
+    state = {
+      ipFormation: '4-3-3',
+      oopFormation: '4-1-4-1',
+      players: [],
+      version: STATE_VERSION,
+      wageBudget: null,
+      wageTargetPercents: {starting:null, bench:null, backup:null, total:null},
+      customFormations: keptCustomFormations
+    };
+    activeTab = 'bench';
+    pitchView = 'ip';
+    searchQuery = '';
+    sortKey = 'name-asc';
+    editingId = null;
+    $('playerSearch').value = '';
+    $('playerSort').value = 'name-asc';
+    closeForm();
+    closeResetModal();
+    scheduleSave();
+    render();
   }
 
   function openCompareModal(){
@@ -2408,6 +2474,12 @@
   function init(){
     $('clearStartersBtn').addEventListener('click', clearStarters);
     $('exportBtn').addEventListener('click', exportBackup);
+    $('resetAllBtn').addEventListener('click', openResetModal);
+    $('resetCancelBtn').addEventListener('click', closeResetModal);
+    $('resetConfirmInput').addEventListener('input', checkResetConfirmInput);
+    $('resetConfirmBtn').addEventListener('click', function(){
+      if(!$('resetConfirmBtn').disabled){ performFullReset(); }
+    });
     $('compareBtn').addEventListener('click', openCompareModal);
     $('compareCloseBtn').addEventListener('click', closeCompareModal);
     $('editorCloseBtn').addEventListener('click', closeFormationEditor);
