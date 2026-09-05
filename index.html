@@ -142,11 +142,7 @@
     margin-top:14px;margin-bottom:4px;
   }
   .wage-budget-row label{font-size:12.5px;color:var(--muted);}
-  .wage-budget-row input{
-    width:170px;font-size:13px;
-    color:var(--text);background:var(--panel-2);
-    border:1px solid var(--border);border-radius:8px;padding:6px 10px;
-  }
+  .wage-budget-row .currency-input{width:190px;}
 
   .overview-section{margin-top:20px;margin-bottom:6px;}
   .overview-grid{
@@ -502,6 +498,20 @@
   .switch input:focus-visible + .switch-track{outline:2px solid var(--amber);outline-offset:2px;}
   .switch-label{font-size:13px;color:var(--text);}
   .form-section input, .form-section select{width:100%;}
+  .currency-input{
+    display:flex;align-items:stretch;width:100%;
+    background:var(--panel-2);border:1px solid var(--border);border-radius:8px;overflow:hidden;
+  }
+  .currency-input .cur-prefix{
+    display:flex;align-items:center;padding:0 0 0 10px;
+    color:var(--amber);font-size:14px;font-weight:700;
+  }
+  .currency-input input{
+    flex:1;min-width:0;width:auto;
+    border:none;background:transparent;color:var(--text);
+    font-size:13px;padding:8px 10px 8px 4px;
+  }
+  .currency-input input:focus{outline:none;}
   .form-actions{display:flex;gap:8px;margin-top:14px;}
   .field-loan{display:none;}
   .field-loan.show{display:flex;}
@@ -612,8 +622,11 @@
   </div>
 
   <div class="wage-budget-row">
-    <label for="wageBudgetInput">Total wage budget per week (£)</label>
-    <input type="text" inputmode="numeric" id="wageBudgetInput" placeholder="e.g. 500,000">
+    <label for="wageBudgetInput">Total wage budget per week</label>
+    <span class="currency-input">
+      <span class="cur-prefix">€</span>
+      <input type="text" inputmode="numeric" id="wageBudgetInput" placeholder="e.g. 500,000">
+    </span>
   </div>
   <div class="wage-stats" id="wageStats"></div>
 
@@ -691,8 +704,11 @@
           <option value="5">5 stars</option>
         </select>
       </label>
-      <label>Wage per week (£)
-        <input type="text" inputmode="numeric" id="f_wage" placeholder="e.g. 45,000">
+      <label>Wage per week
+        <span class="currency-input">
+          <span class="cur-prefix">€</span>
+          <input type="text" inputmode="numeric" id="f_wage" placeholder="e.g. 45,000">
+        </span>
       </label>
       <div class="field-block">Squad plan
         <label class="switch">
@@ -723,10 +739,16 @@
         </label>
       </div>
       <label class="field-loan" id="optionalFeeField">Optional fee
-        <input type="text" id="f_optionalFee" placeholder="e.g. £5m">
+        <span class="currency-input">
+          <span class="cur-prefix">€</span>
+          <input type="text" inputmode="numeric" id="f_optionalFee" placeholder="e.g. 5,000,000">
+        </span>
       </label>
       <label class="field-loan" id="mandatoryFeeField">Mandatory fee
-        <input type="text" id="f_mandatoryFee" placeholder="e.g. £8m">
+        <span class="currency-input">
+          <span class="cur-prefix">€</span>
+          <input type="text" inputmode="numeric" id="f_mandatoryFee" placeholder="e.g. 8,000,000">
+        </span>
       </label>
       <label>Note
         <input type="text" id="f_note" placeholder="Optional note — role, injury, contract status...">
@@ -1753,8 +1775,8 @@
       else lines.push('<div class="lb-title">On loan</div>');
       if(p.loanToBuy){
         lines.push('<div>Buy clause included</div>');
-        if(p.optionalFee) lines.push('<div>Optional fee: ' + escapeHTML(p.optionalFee) + '</div>');
-        if(p.mandatoryFee) lines.push('<div>Mandatory fee: ' + escapeHTML(p.mandatoryFee) + '</div>');
+        if(p.optionalFee) lines.push('<div>Optional fee: €' + escapeHTML(p.optionalFee) + '</div>');
+        if(p.mandatoryFee) lines.push('<div>Mandatory fee: €' + escapeHTML(p.mandatoryFee) + '</div>');
       }
       loanBadge = '<div class="loan-badge">' + lines.join('') + '</div>';
     }
@@ -1908,7 +1930,7 @@
 
   function formatMoney(n){
     if(n === null || n === undefined || isNaN(n)) return '—';
-    return '£' + Math.round(n).toLocaleString('en-GB');
+    return '€' + Math.round(n).toLocaleString('en-GB');
   }
 
   function parseCommaNumber(str){
@@ -2118,22 +2140,29 @@
       '<div class="ov-sub">' + withAge.length + ' player' + (withAge.length === 1 ? '' : 's') + ' with age set</div>';
     wrap.appendChild(ageCard);
 
-    // Card 3: position balance
-    var posCounts = {GK:0, DF:0, MF:0, FW:0};
-    all.forEach(function(p){ if(posCounts.hasOwnProperty(p.position)){ posCounts[p.position]++; } });
+    // Card 3 & 4: position balance, split into squad vs. loan/development
     var posColors = {GK:'var(--gold)', DF:'var(--pos-df)', MF:'var(--pos-mf)', FW:'var(--pos-fw)'};
-    var posRows = ['GK','DF','MF','FW'].map(function(pos){
-      return '<div class="pb-row"><span class="pb-dot" style="background:' + posColors[pos] + ';"></span>' +
-        pos + '<span class="pb-count">' + posCounts[pos] + '</span></div>';
-    }).join('');
-    var posCard = document.createElement('div');
-    posCard.className = 'overview-card';
-    posCard.innerHTML =
-      '<div class="ov-label">Position balance</div>' +
-      '<div class="position-balance-rows">' + posRows + '</div>';
-    wrap.appendChild(posCard);
+    function buildPositionCard(label, list){
+      var posCounts = {GK:0, DF:0, MF:0, FW:0};
+      list.forEach(function(p){ if(posCounts.hasOwnProperty(p.position)){ posCounts[p.position]++; } });
+      var posRows = ['GK','DF','MF','FW'].map(function(pos){
+        return '<div class="pb-row"><span class="pb-dot" style="background:' + posColors[pos] + ';"></span>' +
+          pos + '<span class="pb-count">' + posCounts[pos] + '</span></div>';
+      }).join('');
+      var card = document.createElement('div');
+      card.className = 'overview-card';
+      card.innerHTML =
+        '<div class="ov-label">' + label + '</div>' +
+        '<div class="position-balance-rows">' + posRows + '</div>' +
+        '<div class="ov-sub">' + list.length + ' player' + (list.length === 1 ? '' : 's') + '</div>';
+      return card;
+    }
+    var squadList = all.filter(function(p){ return p.status === 'starting' || p.status === 'bench' || p.status === 'backup'; });
+    var outList = all.filter(function(p){ return p.status === 'loan' || p.status === 'development'; });
+    wrap.appendChild(buildPositionCard('Position balance &middot; squad', squadList));
+    wrap.appendChild(buildPositionCard('Position balance &middot; loan/development', outList));
 
-    // Card 4: wage bill vs budget
+    // Card 5: wage bill vs budget
     var billList = wageGroupList('total');
     var bill = sumWage(billList);
     var hasBudget = typeof state.wageBudget === 'number' && !isNaN(state.wageBudget);
@@ -2432,6 +2461,8 @@
 
     attachCommaFormatting($('wageBudgetInput'));
     attachCommaFormatting($('f_wage'));
+    attachCommaFormatting($('f_optionalFee'));
+    attachCommaFormatting($('f_mandatoryFee'));
 
     $('wageBudgetInput').addEventListener('input', function(){
       state.wageBudget = parseCommaNumber($('wageBudgetInput').value);
