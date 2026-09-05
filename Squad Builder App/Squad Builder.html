@@ -1,0 +1,2458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Squad Builder</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CclipPath id='bg'%3E%3Crect width='32' height='32' rx='7'/%3E%3C/clipPath%3E%3C/defs%3E%3Cg clip-path='url(%23bg)'%3E%3Crect width='32' height='32' fill='%230F2818'/%3E%3Crect y='4' width='32' height='4' fill='%23153420'/%3E%3Crect y='12' width='32' height='4' fill='%23153420'/%3E%3Crect y='20' width='32' height='4' fill='%23153420'/%3E%3Crect y='28' width='32' height='4' fill='%23153420'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='9' fill='white' stroke='black' stroke-width='1'/%3E%3Cpath d='M16,13.5 L16,10 M18.4,15.2 L21.7,14.2 M17.5,18 L19.5,20.9 M14.5,18 L12.5,20.9 M13.6,15.2 L10.3,14.2' stroke='black' stroke-width='0.7' fill='none' stroke-linecap='round'/%3E%3Cpolygon points='16,13.5 18.4,15.2 17.5,18 14.5,18 13.6,15.2' fill='black'/%3E%3Cpolygon points='16,8.2 17.7,9.4 17.1,11.5 14.9,11.5 14.3,9.4' fill='black'/%3E%3Cpolygon points='21.7,12.4 23.4,13.6 22.8,15.7 20.6,15.7 20,13.6' fill='black'/%3E%3Cpolygon points='19.5,19.1 21.2,20.3 20.6,22.4 18.4,22.4 17.8,20.3' fill='black'/%3E%3Cpolygon points='12.5,19.1 14.2,20.3 13.6,22.4 11.4,22.4 10.8,20.3' fill='black'/%3E%3Cpolygon points='10.3,12.4 12,13.6 11.4,15.7 9.2,15.7 8.6,13.6' fill='black'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%20%22Squad%20Builder%22%2C%20%22short_name%22%3A%20%22Squad%20Builder%22%2C%20%22description%22%3A%20%22Organize%20your%20starting%20XI%2C%20bench%2C%20backups%2C%20loans%2C%20and%20youth%20development.%22%2C%20%22start_url%22%3A%20%22.%22%2C%20%22scope%22%3A%20%22.%22%2C%20%22display%22%3A%20%22standalone%22%2C%20%22background_color%22%3A%20%22%23131416%22%2C%20%22theme_color%22%3A%20%22%23131416%22%2C%20%22icons%22%3A%20%5B%7B%22src%22%3A%20%22data%3Aimage/svg%2Bxml%2C%253Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%253E%253Cdefs%253E%253CclipPath%20id%3D%27bg%27%253E%253Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%277%27/%253E%253C/clipPath%253E%253C/defs%253E%253Cg%20clip-path%3D%27url%28%2523bg%29%27%253E%253Crect%20width%3D%2732%27%20height%3D%2732%27%20fill%3D%27%25230F2818%27/%253E%253Crect%20y%3D%274%27%20width%3D%2732%27%20height%3D%274%27%20fill%3D%27%2523153420%27/%253E%253Crect%20y%3D%2712%27%20width%3D%2732%27%20height%3D%274%27%20fill%3D%27%2523153420%27/%253E%253Crect%20y%3D%2720%27%20width%3D%2732%27%20height%3D%274%27%20fill%3D%27%2523153420%27/%253E%253Crect%20y%3D%2728%27%20width%3D%2732%27%20height%3D%274%27%20fill%3D%27%2523153420%27/%253E%253C/g%253E%253Ccircle%20cx%3D%2716%27%20cy%3D%2716%27%20r%3D%279%27%20fill%3D%27white%27%20stroke%3D%27black%27%20stroke-width%3D%271%27/%253E%253Cpath%20d%3D%27M16%2C13.5%20L16%2C10%20M18.4%2C15.2%20L21.7%2C14.2%20M17.5%2C18%20L19.5%2C20.9%20M14.5%2C18%20L12.5%2C20.9%20M13.6%2C15.2%20L10.3%2C14.2%27%20stroke%3D%27black%27%20stroke-width%3D%270.7%27%20fill%3D%27none%27%20stroke-linecap%3D%27round%27/%253E%253Cpolygon%20points%3D%2716%2C13.5%2018.4%2C15.2%2017.5%2C18%2014.5%2C18%2013.6%2C15.2%27%20fill%3D%27black%27/%253E%253Cpolygon%20points%3D%2716%2C8.2%2017.7%2C9.4%2017.1%2C11.5%2014.9%2C11.5%2014.3%2C9.4%27%20fill%3D%27black%27/%253E%253Cpolygon%20points%3D%2721.7%2C12.4%2023.4%2C13.6%2022.8%2C15.7%2020.6%2C15.7%2020%2C13.6%27%20fill%3D%27black%27/%253E%253Cpolygon%20points%3D%2719.5%2C19.1%2021.2%2C20.3%2020.6%2C22.4%2018.4%2C22.4%2017.8%2C20.3%27%20fill%3D%27black%27/%253E%253Cpolygon%20points%3D%2712.5%2C19.1%2014.2%2C20.3%2013.6%2C22.4%2011.4%2C22.4%2010.8%2C20.3%27%20fill%3D%27black%27/%253E%253Cpolygon%20points%3D%2710.3%2C12.4%2012%2C13.6%2011.4%2C15.7%209.2%2C15.7%208.6%2C13.6%27%20fill%3D%27black%27/%253E%253C/svg%253E%22%2C%20%22sizes%22%3A%20%22any%22%2C%20%22type%22%3A%20%22image/svg%2Bxml%22%2C%20%22purpose%22%3A%20%22any%22%7D%5D%7D">
+<meta name="theme-color" content="#131416">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Squad Builder">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CclipPath id='bg'%3E%3Crect width='32' height='32' rx='7'/%3E%3C/clipPath%3E%3C/defs%3E%3Cg clip-path='url(%23bg)'%3E%3Crect width='32' height='32' fill='%230F2818'/%3E%3Crect y='4' width='32' height='4' fill='%23153420'/%3E%3Crect y='12' width='32' height='4' fill='%23153420'/%3E%3Crect y='20' width='32' height='4' fill='%23153420'/%3E%3Crect y='28' width='32' height='4' fill='%23153420'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='9' fill='white' stroke='black' stroke-width='1'/%3E%3Cpath d='M16,13.5 L16,10 M18.4,15.2 L21.7,14.2 M17.5,18 L19.5,20.9 M14.5,18 L12.5,20.9 M13.6,15.2 L10.3,14.2' stroke='black' stroke-width='0.7' fill='none' stroke-linecap='round'/%3E%3Cpolygon points='16,13.5 18.4,15.2 17.5,18 14.5,18 13.6,15.2' fill='black'/%3E%3Cpolygon points='16,8.2 17.7,9.4 17.1,11.5 14.9,11.5 14.3,9.4' fill='black'/%3E%3Cpolygon points='21.7,12.4 23.4,13.6 22.8,15.7 20.6,15.7 20,13.6' fill='black'/%3E%3Cpolygon points='19.5,19.1 21.2,20.3 20.6,22.4 18.4,22.4 17.8,20.3' fill='black'/%3E%3Cpolygon points='12.5,19.1 14.2,20.3 13.6,22.4 11.4,22.4 10.8,20.3' fill='black'/%3E%3Cpolygon points='10.3,12.4 12,13.6 11.4,15.7 9.2,15.7 8.6,13.6' fill='black'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --pitch-dark:#0F2818;
+    --pitch-light:#153420;
+    --line:#DCE5DC;
+    --panel:#131416;
+    --panel-2:#191B1E;
+    --border:#333638;
+    --text:#EEEFF0;
+    --muted:#9EA3A9;
+    --amber:#E9E6DE;
+    --blue:#C7CBCF;
+    --slate:#82878D;
+    --rust:#6E7278;
+    --leaf:#9EA3A9;
+    --danger:#B65B3F;
+    --ink:#22242A;
+    --gold:#D9A441;
+    --pos-df:#5B87A6;
+    --pos-mf:#5DA372;
+    --pos-fw:#C1622D;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  input[type="number"]{-moz-appearance:textfield;}
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+  }
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--panel);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    min-height:100vh;
+  }
+  ::selection{background:var(--amber);color:var(--ink);}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 20px 60px;}
+
+  header.top{
+    display:flex;flex-direction:column;
+    gap:14px;
+    margin-bottom:18px;
+    border-bottom:1px solid var(--border);
+    padding-bottom:16px;
+  }
+  header.top h1{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    font-size:34px;
+    letter-spacing:0.3px;
+    margin:0;
+    line-height:1;
+  }
+  header.top .sub{color:var(--muted);font-size:13px;margin-top:6px;}
+  .top-controls{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:space-between;width:100%;}
+  .controls-left, .controls-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+
+  select, .btn, input, textarea{
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    color:var(--text);
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:8px 12px;
+  }
+  select{cursor:pointer;}
+  .btn{cursor:pointer;font-weight:600;transition:border-color .15s, background .15s;}
+  .btn:hover{border-color:var(--amber);}
+  .btn.primary{background:var(--amber);color:var(--ink);border-color:var(--amber);}
+  .btn.primary:hover{filter:brightness(1.07);}
+  .btn.ghost{background:transparent;}
+  .btn.small{padding:5px 10px;font-size:12.5px;}
+  .btn.danger-outline{border-color:var(--danger);color:#E3A995;}
+  .btn.danger-outline:hover{background:rgba(182,91,63,0.12);}
+
+  .save-tag{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+  .save-dot{width:6px;height:6px;border-radius:50%;background:var(--pos-mf);display:inline-block;}
+  #saveStatus.ok{color:var(--pos-mf);}
+  #saveStatus.err{color:var(--danger);}
+
+  .wage-stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+    margin-top:8px;
+    margin-bottom:20px;
+  }
+  .wage-card{
+    background:var(--panel-2);
+    border:1px solid rgba(255,255,255,0.8);
+    border-radius:8px;
+    padding:10px 13px;
+  }
+  .wage-card .wage-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
+  .wage-card .wage-value{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;font-size:21px;margin-top:3px;
+  }
+  .wage-card .wage-total{font-size:12px;color:var(--muted);margin-top:2px;}
+  .wage-card .wage-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+  .wage-card .wage-diff{font-size:11.5px;font-weight:600;margin-top:5px;}
+  .wage-card .wage-diff.over{color:var(--danger);}
+  .wage-card .wage-diff.under{color:var(--pos-mf);}
+  .wage-card .wage-diff.even{color:var(--muted);}
+  .wage-card.has-target{border-color:var(--amber);}
+  .wage-card .wage-target-amount{font-size:13px;color:var(--amber);font-weight:700;margin-top:4px;}
+  .wage-card .wage-target-inline{
+    display:flex;align-items:center;gap:6px;margin-top:8px;
+    padding-top:8px;border-top:1px solid var(--border);
+  }
+  .wage-card .wage-target-inline .wt-label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;white-space:nowrap;}
+  .wage-card .wage-target-inline .wt-input{
+    width:56px;flex:none;font-size:12px;
+    color:var(--text);background:var(--panel);
+    border:1px solid var(--border);border-radius:6px;padding:4px 6px;
+    text-align:right;
+  }
+  .wage-card .wage-target-inline .wt-suffix{font-size:12px;color:var(--muted);}
+
+  .wage-budget-row{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    margin-top:14px;margin-bottom:4px;
+  }
+  .wage-budget-row label{font-size:12.5px;color:var(--muted);}
+  .wage-budget-row input{
+    width:170px;font-size:13px;
+    color:var(--text);background:var(--panel-2);
+    border:1px solid var(--border);border-radius:8px;padding:6px 10px;
+  }
+
+  .overview-section{margin-top:20px;margin-bottom:6px;}
+  .overview-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:10px;
+  }
+  .overview-card{
+    background:var(--panel-2);
+    border:1px solid rgba(255,255,255,0.8);
+    border-radius:8px;
+    padding:10px 13px;
+  }
+  .overview-card .ov-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
+  .overview-card .ov-value{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;font-size:21px;margin-top:3px;
+  }
+  .overview-card .ov-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+  .position-balance-rows{margin-top:6px;display:flex;flex-direction:column;gap:4px;}
+  .position-balance-rows .pb-row{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text);}
+  .position-balance-rows .pb-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .position-balance-rows .pb-count{margin-left:auto;font-weight:600;}
+  .wage-bar-track{
+    width:100%;height:8px;border-radius:6px;background:var(--panel);
+    border:1px solid var(--border);overflow:hidden;margin-top:8px;
+  }
+  .wage-bar-fill{height:100%;border-radius:6px;background:var(--pos-mf);transition:width .2s;}
+  .wage-bar-fill.over{background:var(--danger);}
+
+  /* PITCH */
+  .pitch-section{margin-bottom:26px;}
+  .section-label{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:600;
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:1.2px;
+    color:var(--muted);
+    margin:0 0 10px 2px;
+  }
+
+  /* phase tabs (In possession / Out of possession / Combined) */
+  .phase-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+  .phase-btn{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    letter-spacing:0.3px;
+    padding:7px 14px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    background:var(--panel-2);
+    color:var(--muted);
+    cursor:pointer;
+  }
+  .phase-btn.active{color:var(--ink);background:var(--amber);border-color:var(--amber);}
+
+  .formation-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;min-height:36px;}
+  .formation-row .fx-label{font-size:12.5px;color:var(--muted);}
+  .formation-summary{font-size:13px;color:var(--muted);}
+  .formation-summary strong{color:var(--text);}
+
+  .pitch{
+    position:relative;
+    width:100%;
+    aspect-ratio:3/4;
+    max-height:640px;
+    border-radius:14px;
+    overflow:hidden;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        var(--pitch-dark) 0,
+        var(--pitch-dark) 12.5%,
+        var(--pitch-light) 12.5%,
+        var(--pitch-light) 25%
+      );
+    border:1px solid var(--border);
+  }
+  .pitch svg.lines, .pitch svg.connectors{position:absolute;inset:0;width:100%;height:100%;}
+  .pitch svg.connectors{pointer-events:none;}
+
+  .slot{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    width:86px;
+    text-align:center;
+    cursor:grab;
+    user-select:none;
+    touch-action:pan-y;
+  }
+  .slot .chip{
+    width:52px;height:52px;
+    margin:0 auto 4px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    border:2px solid var(--line);
+    background:rgba(15,40,24,0.55);
+    backdrop-filter:blur(2px);
+    position:relative;
+    transition:transform .12s, box-shadow .12s;
+  }
+  .slot.filled .chip{background:var(--panel-2);}
+  .slot.filled.pos-GK .chip{border-color:var(--gold);}
+  .slot.filled.pos-DF .chip{border-color:var(--pos-df);}
+  .slot.filled.pos-MF .chip{border-color:var(--pos-mf);}
+  .slot.filled.pos-FW .chip{border-color:var(--pos-fw);}
+  .slot:hover .chip{transform:scale(1.06);box-shadow:0 4px 14px rgba(0,0,0,0.4);}
+  .slot.drag-over .chip{outline:2px solid var(--amber);outline-offset:2px;}
+  .slot.dragging .chip{opacity:0.35;}
+  .slot.ghost{cursor:pointer;}
+  .slot.ghost .chip{opacity:0.55;border-style:dashed;background:transparent;}
+  .slot.ghost .name-tag{opacity:0.65;}
+  .slot .name-tag{
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--text);
+    background:rgba(0,0,0,0.45);
+    border-radius:5px;
+    padding:2px 5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:86px;
+    margin:0 auto;
+  }
+  .slot .pos-label{
+    font-size:10px;
+    color:rgba(237,239,234,0.55);
+    letter-spacing:0.5px;
+  }
+  .slot.empty .chip{color:rgba(237,239,234,0.35);border-style:dashed;}
+  .slot.empty .name-tag{color:rgba(237,239,234,0.35);background:transparent;}
+
+  .combined-legend{display:flex;gap:18px;margin-top:10px;font-size:12px;color:var(--muted);flex-wrap:wrap;}
+  .combined-legend .lg-item{display:flex;align-items:center;gap:6px;}
+  .combined-legend .lg-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);display:inline-block;}
+  .combined-legend .lg-dot.ghost{border-style:dashed;opacity:0.6;}
+
+  /* unassigned starters strip */
+  .unassigned-row{margin-top:12px;}
+  .unassigned-row .ur-label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .unassigned-list{
+    display:flex;flex-wrap:wrap;gap:8px;min-height:20px;
+    padding:8px;border:1px dashed var(--border);border-radius:8px;
+  }
+  .unassigned-list.drag-over{border-color:var(--amber);}
+  .unassigned-chip{
+    display:flex;align-items:center;gap:6px;
+    background:var(--panel-2);border:1px solid var(--border);border-radius:20px;
+    padding:5px 10px 5px 8px;font-size:12.5px;cursor:grab;
+    touch-action:pan-y;
+  }
+  .unassigned-chip .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .unassigned-chip.pos-GK .dot{background:var(--gold);}
+  .unassigned-chip.pos-DF .dot{background:var(--pos-df);}
+  .unassigned-chip.pos-MF .dot{background:var(--pos-mf);}
+  .unassigned-chip.pos-FW .dot{background:var(--pos-fw);}
+  .unassigned-chip .ac-pos{color:var(--muted);}
+
+  /* TABS */
+  .tabs{display:flex;gap:6px;margin:28px 0 14px;flex-wrap:wrap;}
+  .tab-btn{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:0.4px;
+    padding:8px 16px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--panel-2);
+    color:var(--muted);
+    cursor:pointer;
+    display:flex;align-items:center;gap:7px;
+  }
+  .tab-btn .count{
+    font-family:'Inter',sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    background:rgba(255,255,255,0.08);
+    border-radius:20px;
+    padding:1px 7px;
+    color:var(--text);
+  }
+  .tab-btn.active{color:var(--text);border-color:var(--amber);}
+  .tab-btn.active .count{background:var(--amber);color:var(--ink);}
+  .tab-btn.drag-over{border-color:var(--amber);background:rgba(233,230,222,0.10);}
+
+  .tab-hint{font-size:12.5px;color:var(--muted);margin:0 0 14px 2px;}
+  .list-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+  .list-controls input[type="text"]{
+    flex:1;min-width:180px;font-size:13px;
+    color:var(--text);background:var(--panel-2);
+    border:1px solid var(--border);border-radius:8px;padding:8px 12px;
+  }
+  .list-controls select{
+    font-size:13px;color:var(--text);background:var(--panel-2);
+    border:1px solid var(--border);border-radius:8px;padding:8px 12px;
+  }
+
+  /* PLAYER GRID */
+  .player-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+    gap:12px;
+    min-height:60px;
+  }
+  .split-columns{
+    grid-column:1 / -1;
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:20px;
+    align-items:start;
+  }
+  .split-section-heading{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.4px;
+    color:var(--muted);
+    padding-bottom:8px;
+    margin-bottom:12px;
+    border-bottom:1px solid var(--border);
+  }
+  .split-section-grid{
+    min-height:auto;
+    grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+  }
+  .player-card{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-left:3px solid var(--slate);
+    border-radius:8px;
+    padding:12px 13px;
+    cursor:grab;
+    touch-action:pan-y;
+  }
+  .player-card.pos-GK{border-left-color:var(--gold);}
+  .player-card.pos-DF{border-left-color:var(--pos-df);}
+  .player-card.pos-MF{border-left-color:var(--pos-mf);}
+  .player-card.pos-FW{border-left-color:var(--pos-fw);}
+  .player-card .row1{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+  .player-card .pname{font-weight:600;font-size:15px;}
+  .player-card .for-sale-tag{
+    display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;
+    color:var(--danger);border:1px solid var(--danger);border-radius:10px;
+    padding:1px 7px;margin-left:7px;vertical-align:middle;
+  }
+  .player-card .pmeta{font-size:12px;color:var(--muted);margin-top:2px;}
+  .player-card .wage-line{font-size:12px;color:var(--text);margin-top:6px;font-weight:600;}
+  .player-card .wage-line .wl-label{color:var(--muted);font-weight:400;margin-right:4px;}
+  .player-card .stars{font-size:12px;margin-top:7px;color:var(--muted);display:flex;align-items:center;gap:1px;}
+  .player-card .stars .lbl{color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:0.6px;margin-right:4px;flex:0 0 18px;}
+  .player-card .stars .star-icon{width:12px;height:12px;flex:none;display:block;}
+  .player-card .stars .star-icon path{fill:currentColor;}
+  .player-card .stars .star-icon.full{color:var(--gold);}
+  .player-card .stars .star-icon.empty{color:rgba(217,164,65,0.22);}
+  .player-card .stars .star-icon.capped{color:#FFFFFF;}
+  .player-card .stars .star-icon.half{position:relative;width:12px;height:12px;flex:none;display:inline-block;}
+  .player-card .stars .star-icon.half svg{position:absolute;top:0;left:0;width:12px;height:12px;}
+  .player-card .stars .star-icon.half .star-bg{color:rgba(217,164,65,0.22);}
+  .player-card .stars .star-icon.half .star-fg{color:var(--gold);clip-path:inset(0 50% 0 0);}
+  .player-card .stars .star-icon.half.capped .star-fg{color:#FFFFFF;}
+  .player-card .stars .star-icon.half.lead-known .star-bg{color:#FFFFFF;}
+  .player-card .note{font-size:12px;color:var(--muted);margin-top:7px;font-style:italic;}
+  .player-card .card-actions{display:flex;gap:6px;margin-top:10px;}
+  .player-card .card-actions .btn{flex:1;text-align:center;}
+  .player-card .loan-badge{
+    font-size:11px;font-weight:600;color:var(--pos-fw);
+    background:rgba(193,98,45,0.14);border-radius:5px;padding:5px 7px;margin-top:6px;
+    line-height:1.5;
+  }
+  .player-card .loan-badge div{font-weight:500;}
+  .player-card .loan-badge .lb-title{font-weight:700;}
+  .player-card .dev-badge{
+    font-size:11px;font-weight:600;border-radius:5px;padding:5px 7px;margin-top:6px;
+  }
+  .player-card .dev-badge.dev-play{color:var(--pos-mf);background:rgba(93,163,114,0.14);}
+  .player-card .dev-badge.dev-sell{color:var(--gold);background:rgba(217,164,65,0.16);}
+
+  .empty-state{
+    grid-column:1/-1;
+    border:1px dashed var(--border);
+    border-radius:10px;
+    padding:28px 16px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13.5px;
+  }
+
+  /* FORM */
+  .form-panel{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:16px;
+    display:none;
+  }
+  .form-panel.open{display:block;}
+  .form-panel h3{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:600;font-size:18px;margin:0 0 12px;
+  }
+  .form-section{display:flex;flex-direction:column;gap:12px;}
+  .form-section label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);}
+  .field-warning{font-size:12px;color:var(--danger);margin-top:-6px;}
+  .form-section .field-block{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);}
+  .form-divider{border-top:1px solid var(--border);margin:16px 0;}
+  .form-preview-section{margin-bottom:2px;}
+  .form-preview{max-width:260px;}
+  .form-preview .player-card{cursor:default;}
+  .form-preview .card-actions{display:none;}
+  .pill-group{display:inline-flex;gap:6px;flex-wrap:wrap;}
+  .radio-opt{display:inline-flex;}
+  .radio-opt input[type="radio"]{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .radio-opt label{
+    display:inline-block;cursor:pointer;user-select:none;
+    padding:6px 14px;border-radius:20px;
+    border:1px solid var(--border);background:var(--panel-2);
+    color:var(--muted);font-size:12.5px;font-weight:600;
+    transition:background .15s, border-color .15s, color .15s;
+  }
+  .radio-opt input[type="radio"]:checked + label{
+    background:var(--amber);border-color:var(--amber);color:var(--ink);
+  }
+  .radio-opt input[type="radio"]:focus-visible + label{
+    outline:2px solid var(--amber);outline-offset:2px;
+  }
+  .form-section label.switch{display:inline-flex;align-items:center;justify-content:flex-start;flex-direction:row;gap:9px;cursor:pointer;user-select:none;align-self:flex-start;width:fit-content;}
+  .switch input[type="checkbox"]{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .switch-track{
+    position:relative;flex:none;width:36px;height:20px;border-radius:20px;
+    background:var(--panel-2);border:1px solid var(--border);
+    transition:background .15s, border-color .15s;
+  }
+  .switch-thumb{
+    position:absolute;top:1px;left:1px;width:16px;height:16px;border-radius:50%;
+    background:var(--muted);transition:transform .15s, background .15s;
+  }
+  .switch input:checked + .switch-track{background:var(--amber);border-color:var(--amber);}
+  .switch input:checked + .switch-track .switch-thumb{transform:translateX(16px);background:var(--ink);}
+  .switch input:focus-visible + .switch-track{outline:2px solid var(--amber);outline-offset:2px;}
+  .switch-label{font-size:13px;color:var(--text);}
+  .form-section input, .form-section select{width:100%;}
+  .form-actions{display:flex;gap:8px;margin-top:14px;}
+  .field-loan{display:none;}
+  .field-loan.show{display:flex;}
+  .field-loan-or-development{display:none;}
+  .field-loan-or-development.show{display:flex;}
+
+  footer.hint{
+    margin-top:30px;color:var(--muted);font-size:12.5px;
+    border-top:1px solid var(--border);padding-top:14px;
+  }
+
+  .modal-overlay{
+    display:none;
+    position:fixed;inset:0;
+    background:rgba(6,10,8,0.6);
+    align-items:center;justify-content:center;
+    z-index:100;
+    padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:20px;
+    max-width:360px;
+    width:100%;
+    box-shadow:0 12px 40px rgba(0,0,0,0.5);
+  }
+  .modal-message{font-size:14px;line-height:1.5;margin-bottom:16px;}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;}
+
+  .compare-box{max-width:680px;}
+  .compare-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .compare-header h3{
+    font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:19px;margin:0;
+  }
+  .compare-selects{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .compare-selects select{
+    flex:1;min-width:160px;font-size:13px;
+    color:var(--text);background:var(--panel);
+    border:1px solid var(--border);border-radius:8px;padding:8px 10px;
+  }
+  .compare-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+  }
+  .compare-cards .player-card{cursor:default;}
+  .compare-cards .card-actions{display:none;}
+
+  .editor-box{max-width:420px;}
+  .editor-hint{font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+  .editor-pitch{
+    position:relative;width:100%;aspect-ratio:3/4;max-height:420px;
+    border-radius:10px;overflow:hidden;
+    background:repeating-linear-gradient(to bottom, var(--pitch-dark) 0, var(--pitch-dark) 12.5%, var(--pitch-light) 12.5%, var(--pitch-light) 25%);
+    border:1px solid var(--border);
+    touch-action:none;
+  }
+  .editor-pitch svg.lines{position:absolute;inset:0;width:100%;height:100%;}
+  .editor-marker{
+    position:absolute;transform:translate(-50%,-50%);
+    width:34px;height:34px;border-radius:50%;
+    background:var(--panel-2);border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;
+    color:var(--text);cursor:grab;user-select:none;
+  }
+  .editor-marker.dragging{cursor:grabbing;box-shadow:0 4px 14px rgba(0,0,0,0.5);z-index:5;}
+  .editor-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+  .editor-actions input{
+    flex:1;min-width:160px;font-size:13px;
+    color:var(--text);background:var(--panel);
+    border:1px solid var(--border);border-radius:8px;padding:8px 10px;
+  }
+
+  @media (max-width:640px){
+    header.top h1{font-size:27px;}
+    .slot{width:70px;}
+    .slot .chip{width:42px;height:42px;font-size:13px;}
+    .split-columns{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>Squad Builder</h1>
+      <div class="sub">Set your in-possession and out-of-possession shapes, then organize the rest of the squad below.</div>
+    </div>
+  </header>
+
+  <div class="top-controls">
+    <div class="controls-left">
+      <button class="btn ghost" id="clearStartersBtn">Clear Starting XI</button>
+      <button class="btn ghost" id="compareBtn">Compare players</button>
+      <button class="btn" id="addBtn">Add player</button>
+    </div>
+    <div class="controls-right">
+      <span class="save-tag"><span class="save-dot"></span><span id="saveStatus" class="ok">Saved</span></span>
+      <button class="btn ghost" id="exportBtn">Export backup</button>
+      <button class="btn ghost" id="importBtn">Import backup</button>
+      <input type="file" id="importFile" accept="application/json,.json" style="display:none;">
+    </div>
+  </div>
+
+  <div class="wage-budget-row">
+    <label for="wageBudgetInput">Total wage budget per week (£)</label>
+    <input type="text" inputmode="numeric" id="wageBudgetInput" placeholder="e.g. 500,000">
+  </div>
+  <div class="wage-stats" id="wageStats"></div>
+
+  <div class="overview-section">
+    <div class="section-label">Squad Overview</div>
+    <div class="overview-grid" id="overviewGrid"></div>
+  </div>
+
+  <div class="form-panel" id="formPanel">
+    <h3 id="formTitle">Add player</h3>
+    <div class="form-section">
+      <label>Name
+        <input type="text" id="f_name" placeholder="Player name">
+      </label>
+      <div class="field-warning" id="nameWarning" style="display:none;"></div>
+      <label>Position
+        <select id="f_position">
+          <option value="GK">GK</option>
+          <option value="DF">DF</option>
+          <option value="MF">MF</option>
+          <option value="FW">FW</option>
+        </select>
+      </label>
+      <label>Age
+        <input type="number" id="f_age" min="14" max="45" placeholder="Age">
+      </label>
+      <label>List
+        <select id="f_status">
+          <option value="bench">Bench</option>
+          <option value="backup">Backup</option>
+          <option value="loan">On loan</option>
+          <option value="development">Development</option>
+        </select>
+      </label>
+      <label>Current ability
+        <select id="f_rating">
+          <option value="0.5">½ star</option>
+          <option value="1">1 star</option>
+          <option value="1.5">1½ stars</option>
+          <option value="2">2 stars</option>
+          <option value="2.5">2½ stars</option>
+          <option value="3">3 stars</option>
+          <option value="3.5">3½ stars</option>
+          <option value="4">4 stars</option>
+          <option value="4.5">4½ stars</option>
+          <option value="5" selected>5 stars</option>
+        </select>
+      </label>
+      <label>Potential ability
+        <select id="f_potential">
+          <option value="0.5">½ star</option>
+          <option value="1">1 star</option>
+          <option value="1.5">1½ stars</option>
+          <option value="2">2 stars</option>
+          <option value="2.5">2½ stars</option>
+          <option value="3">3 stars</option>
+          <option value="3.5">3½ stars</option>
+          <option value="4">4 stars</option>
+          <option value="4.5">4½ stars</option>
+          <option value="5" selected>5 stars</option>
+        </select>
+      </label>
+      <label>Unknown ability
+        <select id="f_potentialCeiling">
+          <option value="">Same as potential ability</option>
+          <option value="0.5">½ star</option>
+          <option value="1">1 star</option>
+          <option value="1.5">1½ stars</option>
+          <option value="2">2 stars</option>
+          <option value="2.5">2½ stars</option>
+          <option value="3">3 stars</option>
+          <option value="3.5">3½ stars</option>
+          <option value="4">4 stars</option>
+          <option value="4.5">4½ stars</option>
+          <option value="5">5 stars</option>
+        </select>
+      </label>
+      <label>Wage per week (£)
+        <input type="text" inputmode="numeric" id="f_wage" placeholder="e.g. 45,000">
+      </label>
+      <div class="field-block">Squad plan
+        <label class="switch">
+          <input type="checkbox" id="f_forSale">
+          <span class="switch-track"><span class="switch-thumb"></span></span>
+          <span class="switch-label">Mark for sale</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <div class="form-section">
+      <label class="field-loan" id="loanClubField">Loaned to
+        <input type="text" id="f_loanClub" placeholder="Club name">
+      </label>
+      <div class="field-loan-or-development field-block" id="developmentGoalField">Development goal
+        <span class="pill-group">
+          <span class="radio-opt"><input type="radio" name="f_developmentGoal" id="f_devGoalPlay" value="play"><label for="f_devGoalPlay">To play</label></span>
+          <span class="radio-opt"><input type="radio" name="f_developmentGoal" id="f_devGoalSell" value="sell"><label for="f_devGoalSell">To sell</label></span>
+        </span>
+      </div>
+      <div class="field-loan-checkbox field-block" id="loanToBuyField">Deal
+        <label class="switch">
+          <input type="checkbox" id="f_loanToBuy">
+          <span class="switch-track"><span class="switch-thumb"></span></span>
+          <span class="switch-label">Includes a buy clause</span>
+        </label>
+      </div>
+      <label class="field-loan" id="optionalFeeField">Optional fee
+        <input type="text" id="f_optionalFee" placeholder="e.g. £5m">
+      </label>
+      <label class="field-loan" id="mandatoryFeeField">Mandatory fee
+        <input type="text" id="f_mandatoryFee" placeholder="e.g. £8m">
+      </label>
+      <label>Note
+        <input type="text" id="f_note" placeholder="Optional note — role, injury, contract status...">
+      </label>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <div class="form-preview-section">
+      <div class="section-label" style="margin-bottom:8px;">Preview</div>
+      <div class="form-preview" id="formPreview"></div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn primary" id="saveBtn">Save player</button>
+      <button class="btn ghost" id="cancelBtn">Cancel</button>
+      <button class="btn danger-outline" id="deleteBtn" style="display:none;margin-left:auto;">Delete player</button>
+    </div>
+  </div>
+
+  <section class="pitch-section">
+    <div class="section-label">Starting XI</div>
+    <div class="phase-tabs" id="phaseTabs"></div>
+    <div class="formation-row" id="formationRow"></div>
+    <div class="pitch" id="pitch">
+      <svg class="lines" viewBox="0 0 300 400" preserveAspectRatio="none">
+        <rect x="4" y="4" width="292" height="392" fill="none" stroke="#DCE5DC" stroke-opacity="0.35" stroke-width="1.5"/>
+        <line x1="4" y1="200" x2="296" y2="200" stroke="#DCE5DC" stroke-opacity="0.35" stroke-width="1.5"/>
+        <circle cx="150" cy="200" r="34" fill="none" stroke="#DCE5DC" stroke-opacity="0.35" stroke-width="1.5"/>
+        <rect x="70" y="4" width="160" height="46" fill="none" stroke="#DCE5DC" stroke-opacity="0.35" stroke-width="1.5"/>
+        <rect x="70" y="350" width="160" height="46" fill="none" stroke="#DCE5DC" stroke-opacity="0.35" stroke-width="1.5"/>
+        <rect x="110" y="4" width="80" height="18" fill="none" stroke="#DCE5DC" stroke-opacity="0.35" stroke-width="1.5"/>
+        <rect x="110" y="378" width="80" height="18" fill="none" stroke="#DCE5DC" stroke-opacity="0.35" stroke-width="1.5"/>
+      </svg>
+      <!-- slots injected by JS -->
+    </div>
+    <div id="combinedLegend"></div>
+    <div class="unassigned-row" id="unassignedRow"></div>
+  </section>
+
+  <div class="tabs" id="tabs"></div>
+  <div class="tab-hint" id="tabHint"></div>
+  <div class="list-controls">
+    <input type="text" id="playerSearch" placeholder="Search players by name...">
+    <select id="playerSort">
+      <option value="name-asc">Name (A–Z)</option>
+      <option value="name-desc">Name (Z–A)</option>
+      <option value="age-asc">Age (low–high)</option>
+      <option value="age-desc">Age (high–low)</option>
+      <option value="wage-desc">Wage (high–low)</option>
+      <option value="wage-asc">Wage (low–high)</option>
+      <option value="rating-desc">Current ability (high–low)</option>
+      <option value="potential-desc">Potential (high–low)</option>
+    </select>
+  </div>
+  <div class="player-grid" id="playerGrid"></div>
+
+  <footer class="hint" id="pitchHint">Drag a card onto an open pitch spot to place them. Drop onto a tab label to move a player between lists without switching tabs. Everything here saves automatically.</footer>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <div class="modal-message" id="modalMessage"></div>
+      <div class="modal-actions" id="modalActions"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="compareOverlay">
+    <div class="modal-box compare-box">
+      <div class="compare-header">
+        <h3>Compare players</h3>
+        <button class="btn ghost small" id="compareCloseBtn">Close</button>
+      </div>
+      <div class="compare-selects">
+        <select id="comparePlayerA"></select>
+        <select id="comparePlayerB"></select>
+      </div>
+      <div class="compare-cards" id="compareCards"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="formationEditorOverlay">
+    <div class="modal-box editor-box">
+      <div class="compare-header">
+        <h3>Save as custom formation</h3>
+        <button class="btn ghost small" id="editorCloseBtn">Cancel</button>
+      </div>
+      <div class="editor-hint">Drag the markers to reshape this formation, then give it a name and save.</div>
+      <div class="editor-pitch" id="editorPitch">
+        <svg class="lines" viewBox="0 0 300 400" preserveAspectRatio="none">
+          <rect x="4" y="4" width="292" height="392" fill="none" stroke="#DCE5DC" stroke-opacity="0.35" stroke-width="1.5"/>
+          <line x1="4" y1="200" x2="296" y2="200" stroke="#DCE5DC" stroke-opacity="0.35" stroke-width="1.5"/>
+          <circle cx="150" cy="200" r="34" fill="none" stroke="#DCE5DC" stroke-opacity="0.35" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="editor-actions">
+        <input type="text" id="editorNameInput" placeholder="Name this formation, e.g. My 4-3-3">
+        <button class="btn primary" id="editorSaveBtn">Save formation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  var STATE_VERSION = 2;
+
+  var FORMATIONS = {
+    '4-3-3': {
+      label:'4-3-3',
+      slots:[
+        {id:'gk', pos:'GK', label:'GK', x:50, y:91},
+        {id:'lb', pos:'DF', label:'LB', x:14, y:73},
+        {id:'cb1',pos:'DF', label:'CB', x:37, y:78},
+        {id:'cb2',pos:'DF', label:'CB', x:63, y:78},
+        {id:'rb', pos:'DF', label:'RB', x:86, y:73},
+        {id:'cm1',pos:'MF', label:'CM', x:28, y:52},
+        {id:'cm2',pos:'MF', label:'CM', x:50, y:57},
+        {id:'cm3',pos:'MF', label:'CM', x:72, y:52},
+        {id:'lw', pos:'FW', label:'LW', x:18, y:22},
+        {id:'st', pos:'FW', label:'ST', x:50, y:14},
+        {id:'rw', pos:'FW', label:'RW', x:82, y:22}
+      ]
+    },
+    '4-4-2': {
+      label:'4-4-2',
+      slots:[
+        {id:'gk', pos:'GK', label:'GK', x:50, y:91},
+        {id:'lb', pos:'DF', label:'LB', x:14, y:73},
+        {id:'cb1',pos:'DF', label:'CB', x:37, y:78},
+        {id:'cb2',pos:'DF', label:'CB', x:63, y:78},
+        {id:'rb', pos:'DF', label:'RB', x:86, y:73},
+        {id:'lm', pos:'MF', label:'LM', x:14, y:48},
+        {id:'cm1',pos:'MF', label:'CM', x:38, y:53},
+        {id:'cm2',pos:'MF', label:'CM', x:62, y:53},
+        {id:'rm', pos:'MF', label:'RM', x:86, y:48},
+        {id:'st1',pos:'FW', label:'ST', x:36, y:17},
+        {id:'st2',pos:'FW', label:'ST', x:64, y:17}
+      ]
+    },
+    '3-5-2': {
+      label:'3-5-2',
+      slots:[
+        {id:'gk', pos:'GK', label:'GK', x:50, y:91},
+        {id:'cb1',pos:'DF', label:'CB', x:30, y:77},
+        {id:'cb2',pos:'DF', label:'CB', x:50, y:80},
+        {id:'cb3',pos:'DF', label:'CB', x:70, y:77},
+        {id:'lwb',pos:'MF', label:'LWB', x:8,  y:52},
+        {id:'cm1',pos:'MF', label:'CM', x:33, y:56},
+        {id:'cm2',pos:'MF', label:'CM', x:50, y:60},
+        {id:'cm3',pos:'MF', label:'CM', x:67, y:56},
+        {id:'rwb',pos:'MF', label:'RWB', x:92, y:52},
+        {id:'st1',pos:'FW', label:'ST', x:37, y:17},
+        {id:'st2',pos:'FW', label:'ST', x:63, y:17}
+      ]
+    },
+    '4-2-3-1': {
+      label:'4-2-3-1',
+      slots:[
+        {id:'gk', pos:'GK', label:'GK', x:50, y:91},
+        {id:'lb', pos:'DF', label:'LB', x:14, y:73},
+        {id:'cb1',pos:'DF', label:'CB', x:37, y:78},
+        {id:'cb2',pos:'DF', label:'CB', x:63, y:78},
+        {id:'rb', pos:'DF', label:'RB', x:86, y:73},
+        {id:'cdm1',pos:'MF', label:'CDM', x:36, y:60},
+        {id:'cdm2',pos:'MF', label:'CDM', x:64, y:60},
+        {id:'lam',pos:'MF', label:'LAM', x:18, y:36},
+        {id:'cam',pos:'MF', label:'CAM', x:50, y:33},
+        {id:'ram',pos:'MF', label:'RAM', x:82, y:36},
+        {id:'st', pos:'FW', label:'ST', x:50, y:14}
+      ]
+    },
+    '4-1-4-1': {
+      label:'4-1-4-1',
+      slots:[
+        {id:'gk', pos:'GK', label:'GK', x:50, y:91},
+        {id:'lb', pos:'DF', label:'LB', x:14, y:73},
+        {id:'cb1',pos:'DF', label:'CB', x:37, y:78},
+        {id:'cb2',pos:'DF', label:'CB', x:63, y:78},
+        {id:'rb', pos:'DF', label:'RB', x:86, y:73},
+        {id:'cdm', pos:'MF', label:'CDM', x:50, y:60},
+        {id:'lm', pos:'MF', label:'LM', x:14, y:42},
+        {id:'cm1',pos:'MF', label:'CM', x:38, y:46},
+        {id:'cm2',pos:'MF', label:'CM', x:62, y:46},
+        {id:'rm', pos:'MF', label:'RM', x:86, y:42},
+        {id:'st', pos:'FW', label:'ST', x:50, y:15}
+      ]
+    },
+    '4-2-4': {
+      label:'4-2-4',
+      slots:[
+        {id:'gk', pos:'GK', label:'GK', x:50, y:91},
+        {id:'lb', pos:'DF', label:'LB', x:14, y:73},
+        {id:'cb1',pos:'DF', label:'CB', x:37, y:78},
+        {id:'cb2',pos:'DF', label:'CB', x:63, y:78},
+        {id:'rb', pos:'DF', label:'RB', x:86, y:73},
+        {id:'cm1',pos:'MF', label:'CM', x:35, y:53},
+        {id:'cm2',pos:'MF', label:'CM', x:65, y:53},
+        {id:'lw', pos:'FW', label:'LW', x:12, y:20},
+        {id:'st1',pos:'FW', label:'ST', x:38, y:14},
+        {id:'st2',pos:'FW', label:'ST', x:62, y:14},
+        {id:'rw', pos:'FW', label:'RW', x:88, y:20}
+      ]
+    },
+    '4-1-3-2': {
+      label:'4-1-3-2',
+      slots:[
+        {id:'gk', pos:'GK', label:'GK', x:50, y:91},
+        {id:'lb', pos:'DF', label:'LB', x:14, y:73},
+        {id:'cb1',pos:'DF', label:'CB', x:37, y:78},
+        {id:'cb2',pos:'DF', label:'CB', x:63, y:78},
+        {id:'rb', pos:'DF', label:'RB', x:86, y:73},
+        {id:'cdm', pos:'MF', label:'CDM', x:50, y:63},
+        {id:'lm', pos:'MF', label:'LM', x:14, y:47},
+        {id:'cm', pos:'MF', label:'CM', x:50, y:48},
+        {id:'rm', pos:'MF', label:'RM', x:86, y:47},
+        {id:'st1',pos:'FW', label:'ST', x:38, y:16},
+        {id:'st2',pos:'FW', label:'ST', x:62, y:16}
+      ]
+    }
+  };
+
+  function getFormationDef(key){
+    return FORMATIONS[key] || (state.customFormations && state.customFormations[key]);
+  }
+
+  var PHASES = [
+    {id:'ip',  label:'In possession'},
+    {id:'oop', label:'Out of possession'},
+    {id:'combined', label:'Combined'}
+  ];
+
+  var TABS = [
+    {id:'bench',  label:'Bench',          hint:'Matchday squad players not in the starting XI.'},
+    {id:'backup', label:'Backup', hint:'Wider squad depth outside the matchday plans.'},
+    {id:'loan',   label:'On loan',        hint:'Players out on loan elsewhere.'},
+    {id:'development', label:'Development', hint:'Academy players being developed for the future.'}
+  ];
+
+  var state = { ipFormation:'4-3-3', oopFormation:'4-1-4-1', players:[], version:STATE_VERSION, wageBudget: null, wageTargetPercents: {starting:null, bench:null, backup:null, total:null}, customFormations: {} };
+  var pitchView = 'ip';
+  var activeTab = 'bench';
+  var searchQuery = '';
+  var sortKey = 'name-asc';
+  var editingId = null;
+  var saveTimer = null;
+
+  var $ = function(id){ return document.getElementById(id); };
+  var uid = function(){ return 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); };
+  var safeParse = function(s){ try{ return JSON.parse(s); }catch(e){ return null; } };
+
+  // ---------- storage (works inside Claude.ai and as a standalone downloaded file) ----------
+  var hasClaudeStorage = (typeof window.storage !== 'undefined') && window.storage && typeof window.storage.get === 'function';
+
+  function storageGet(key){
+    if(hasClaudeStorage){
+      return window.storage.get(key, false);
+    }
+    return Promise.resolve().then(function(){
+      try{
+        var raw = window.localStorage.getItem(key);
+        return raw !== null ? {key:key, value:raw, shared:false} : null;
+      }catch(e){ return null; }
+    });
+  }
+
+  function storageSet(key, value){
+    if(hasClaudeStorage){
+      return window.storage.set(key, value, false);
+    }
+    return Promise.resolve().then(function(){
+      window.localStorage.setItem(key, value);
+      return {key:key, value:value, shared:false};
+    });
+  }
+
+  // ---------- persistence ----------
+  function scheduleSave(){
+    $('saveStatus').textContent = 'Saving…';
+    $('saveStatus').className = '';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function(){
+      storageSet('fm26-squad-state', JSON.stringify(state))
+        .then(function(){ $('saveStatus').textContent = 'Saved'; $('saveStatus').className = 'ok'; })
+        .catch(function(){ $('saveStatus').textContent = 'Not saved'; $('saveStatus').className = 'err'; });
+    }, 300);
+  }
+
+  function normalizeState(parsed){
+    if(!parsed || !parsed.players) return null;
+
+    // migrate old absolute per-group wage targets into the new budget + percentage model
+    if(!parsed.wageTargetPercents){
+      parsed.wageTargetPercents = {starting:null, bench:null, backup:null, total:null};
+      if(typeof parsed.wageBudget !== 'number'){ parsed.wageBudget = null; }
+      var legacy = parsed.wageTargets;
+      if(legacy){
+        var inferredBudget = (typeof legacy.total === 'number') ? legacy.total
+          : (typeof legacy.starting === 'number') ? legacy.starting : null;
+        if(inferredBudget && inferredBudget > 0){
+          parsed.wageBudget = inferredBudget;
+          ['starting','bench','backup','total'].forEach(function(k){
+            if(typeof legacy[k] === 'number'){
+              parsed.wageTargetPercents[k] = Math.round((legacy[k] / inferredBudget) * 100);
+            }
+          });
+        }
+      }
+    }
+    delete parsed.wageTargets;
+    delete parsed.targetAvgWage;
+
+    // merge legacy split youth tabs into the single Development tab
+    parsed.players.forEach(function(p){
+      if(p.status === 'youth_play'){ p.status = 'development'; p.developmentGoal = 'play'; }
+      else if(p.status === 'youth_sell'){ p.status = 'development'; p.developmentGoal = 'sell'; }
+      else if(p.status === 'youth'){ p.status = 'development'; }
+      // merge legacy separate loan-purpose field into the single developmentGoal field
+      if(p.loanPurpose && !p.developmentGoal){ p.developmentGoal = p.loanPurpose; }
+      delete p.loanPurpose;
+      // convert legacy potential='unknown' string into numeric potential + a full-range ceiling
+      if(p.potential === 'unknown'){
+        p.potential = (typeof p.rating === 'number') ? p.rating : 3;
+        p.potentialCeiling = 5;
+      }
+      // convert legacy boolean potentialUnknown flag into the new exact potentialCeiling value
+      if(p.potentialUnknown && !p.potentialCeiling){ p.potentialCeiling = 5; }
+      delete p.potentialUnknown;
+    });
+
+    if(!parsed.customFormations || typeof parsed.customFormations !== 'object'){
+      parsed.customFormations = {};
+    }
+    function isValidFormationKey(key){
+      return !!(FORMATIONS[key] || parsed.customFormations[key]);
+    }
+
+    if(!parsed.version || parsed.version < STATE_VERSION){
+      // migrating from an older layout system - re-place starters fresh
+      parsed.players.forEach(function(p){
+        if(p.status === 'starting'){ p.status = 'bench'; }
+        delete p.slotId;
+        p.ipSlotId = null;
+        p.oopSlotId = null;
+      });
+      parsed.ipFormation = isValidFormationKey(parsed.ipFormation) ? parsed.ipFormation : '4-3-3';
+      parsed.oopFormation = isValidFormationKey(parsed.oopFormation) ? parsed.oopFormation : '4-1-4-1';
+      parsed.version = STATE_VERSION;
+    } else {
+      if(!isValidFormationKey(parsed.ipFormation)) parsed.ipFormation = '4-3-3';
+      if(!isValidFormationKey(parsed.oopFormation)) parsed.oopFormation = '4-1-4-1';
+      var ipF = FORMATIONS[parsed.ipFormation] || parsed.customFormations[parsed.ipFormation];
+      var oopF = FORMATIONS[parsed.oopFormation] || parsed.customFormations[parsed.oopFormation];
+      parsed.players.forEach(function(p){
+        if(p.ipSlotId && !ipF.slots.some(function(s){ return s.id === p.ipSlotId; })){ p.ipSlotId = null; }
+        if(p.oopSlotId && !oopF.slots.some(function(s){ return s.id === p.oopSlotId; })){ p.oopSlotId = null; }
+      });
+    }
+    return parsed;
+  }
+
+  function loadState(){
+    Promise.resolve()
+      .then(function(){ return storageGet('fm26-squad-state'); })
+      .then(function(res){
+        if(res && res.value){
+          var normalized = normalizeState(safeParse(res.value));
+          if(normalized){ state = normalized; }
+        }
+      })
+      .catch(function(err){
+        console.warn('Squad Builder: could not load saved data, starting fresh.', err);
+      })
+      .then(function(){ init(); });
+  }
+
+  function exportBackup(){
+    var blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    var stamp = new Date().toISOString().slice(0,10);
+    a.href = url;
+    a.download = 'squad-builder-backup-' + stamp + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  }
+
+  function importBackupFile(file){
+    var reader = new FileReader();
+    reader.onload = function(){
+      var parsed = safeParse(reader.result);
+      var normalized = normalizeState(parsed);
+      if(!normalized){
+        showAlert('That file doesn\'t look like a Squad Builder backup — nothing was changed.');
+        return;
+      }
+      showConfirm('Import this backup? It will replace everything currently in Squad Builder.', function(){
+        state = normalized;
+        scheduleSave();
+        render();
+      });
+    };
+    reader.onerror = function(){
+      showAlert('Couldn\'t read that file — nothing was changed.');
+    };
+    reader.readAsText(file);
+  }
+
+  function hideModal(){
+    $('modalOverlay').classList.remove('open');
+  }
+
+  function showAlert(message){
+    $('modalMessage').textContent = message;
+    var actions = $('modalActions');
+    actions.innerHTML = '';
+    var okBtn = document.createElement('button');
+    okBtn.className = 'btn primary';
+    okBtn.textContent = 'OK';
+    okBtn.addEventListener('click', hideModal);
+    actions.appendChild(okBtn);
+    $('modalOverlay').classList.add('open');
+  }
+
+  function showConfirm(message, onConfirm, onCancel){
+    $('modalMessage').textContent = message;
+    var actions = $('modalActions');
+    actions.innerHTML = '';
+    var cancelBtn = document.createElement('button');
+    cancelBtn.className = 'btn ghost';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.addEventListener('click', function(){ hideModal(); if(onCancel) onCancel(); });
+    var okBtn = document.createElement('button');
+    okBtn.className = 'btn danger-outline';
+    okBtn.textContent = 'Confirm';
+    okBtn.addEventListener('click', function(){ hideModal(); onConfirm(); });
+    actions.appendChild(cancelBtn);
+    actions.appendChild(okBtn);
+    $('modalOverlay').classList.add('open');
+  }
+
+  function openCompareModal(){
+    populateCompareSelects();
+    $('compareOverlay').classList.add('open');
+  }
+
+  function closeCompareModal(){
+    $('compareOverlay').classList.remove('open');
+  }
+
+  function populateCompareSelects(){
+    var selA = $('comparePlayerA');
+    var selB = $('comparePlayerB');
+    var prevA = selA.value;
+    var prevB = selB.value;
+    var sorted = state.players.slice().sort(function(a,b){ return a.name.localeCompare(b.name); });
+    var optionsHTML = '<option value="">Select a player...</option>' + sorted.map(function(p){
+      return '<option value="' + p.id + '">' + escapeHTML(p.name) + ' (' + p.position + ')</option>';
+    }).join('');
+    selA.innerHTML = optionsHTML;
+    selB.innerHTML = optionsHTML;
+    if(sorted.some(function(p){ return p.id === prevA; })){ selA.value = prevA; }
+    if(sorted.some(function(p){ return p.id === prevB; })){ selB.value = prevB; }
+    renderCompareCards();
+  }
+
+  function renderCompareCards(){
+    var wrap = $('compareCards');
+    wrap.innerHTML = '';
+    var idA = $('comparePlayerA').value;
+    var idB = $('comparePlayerB').value;
+    var pa = state.players.find(function(p){ return p.id === idA; });
+    var pb = state.players.find(function(p){ return p.id === idB; });
+
+    if(!pa && !pb){
+      wrap.appendChild(emptyStateEl('Pick two players above to compare them.'));
+      return;
+    }
+    if(pa && pb && pa.id === pb.id){
+      wrap.appendChild(emptyStateEl('Pick two different players to compare.'));
+      return;
+    }
+    if(pa){ wrap.appendChild(buildPlayerCard(pa)); }
+    if(pb){ wrap.appendChild(buildPlayerCard(pb)); }
+  }
+
+  // ---------- custom formation editor ----------
+  var editorSlots = [];
+  var editorDraggingIndex = null;
+
+  function openFormationEditor(sourceKey){
+    var src = getFormationDef(sourceKey);
+    if(!src) return;
+    editorSlots = src.slots.map(function(s){ return {id:s.id, pos:s.pos, label:s.label, x:s.x, y:s.y}; });
+    $('editorNameInput').value = '';
+    renderFormationEditor();
+    $('formationEditorOverlay').classList.add('open');
+  }
+
+  function closeFormationEditor(){
+    $('formationEditorOverlay').classList.remove('open');
+  }
+
+  function renderFormationEditor(){
+    var pitch = $('editorPitch');
+    pitch.querySelectorAll('.editor-marker').forEach(function(el){ el.remove(); });
+    editorSlots.forEach(function(slot, idx){
+      var el = document.createElement('div');
+      el.className = 'editor-marker';
+      el.style.left = slot.x + '%';
+      el.style.top = slot.y + '%';
+      el.textContent = slot.label;
+      el.addEventListener('mousedown', function(e){
+        e.preventDefault();
+        startEditorDrag(idx, e.clientX, e.clientY);
+      });
+      el.addEventListener('touchstart', function(e){
+        var t = e.touches[0];
+        startEditorDrag(idx, t.clientX, t.clientY);
+      }, {passive:true});
+      pitch.appendChild(el);
+    });
+  }
+
+  function startEditorDrag(idx, clientX, clientY){
+    editorDraggingIndex = idx;
+    var markers = $('editorPitch').querySelectorAll('.editor-marker');
+    if(markers[idx]) markers[idx].classList.add('dragging');
+    moveEditorMarker(clientX, clientY);
+
+    function onMove(e){
+      if(e.touches){ e.preventDefault(); }
+      var point = e.touches ? e.touches[0] : e;
+      moveEditorMarker(point.clientX, point.clientY);
+    }
+    function onUp(){
+      if(markers[idx]) markers[idx].classList.remove('dragging');
+      editorDraggingIndex = null;
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchmove', onMove, {passive:false});
+    document.addEventListener('touchend', onUp);
+  }
+
+  function moveEditorMarker(clientX, clientY){
+    if(editorDraggingIndex === null) return;
+    var pitch = $('editorPitch');
+    var rect = pitch.getBoundingClientRect();
+    if(rect.width === 0 || rect.height === 0) return;
+    var xPct = ((clientX - rect.left) / rect.width) * 100;
+    var yPct = ((clientY - rect.top) / rect.height) * 100;
+    xPct = Math.max(2, Math.min(98, xPct));
+    yPct = Math.max(2, Math.min(98, yPct));
+    editorSlots[editorDraggingIndex].x = Math.round(xPct * 10) / 10;
+    editorSlots[editorDraggingIndex].y = Math.round(yPct * 10) / 10;
+    var markers = pitch.querySelectorAll('.editor-marker');
+    var el = markers[editorDraggingIndex];
+    if(el){ el.style.left = xPct + '%'; el.style.top = yPct + '%'; }
+  }
+
+  function saveCustomFormation(){
+    var name = $('editorNameInput').value.trim();
+    if(!name){ showAlert('Please give this formation a name.'); return; }
+    var key = 'custom-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-+|-+$)/g, '') + '-' + Date.now().toString(36);
+    if(!state.customFormations){ state.customFormations = {}; }
+    state.customFormations[key] = {
+      label: name,
+      slots: editorSlots.map(function(s){ return {id:s.id, pos:s.pos, label:s.label, x:s.x, y:s.y}; })
+    };
+    scheduleSave();
+    closeFormationEditor();
+    renderFormationRow();
+  }
+
+  // ---------- helpers ----------
+  var STAR_PATH = 'M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z';
+
+  function starsHTML(n, label, uncertainTo){
+    n = parseFloat(n) || 0;
+    var hasUncertain = (typeof uncertainTo === 'number' && !isNaN(uncertainTo) && uncertainTo > n);
+    var out = '<span class="lbl">' + label + '</span>';
+    for(var i=1;i<=5;i++){
+      var fillAmount = n - (i-1);
+      var uncertainFill = hasUncertain ? (uncertainTo - (i-1)) : 0;
+      if(fillAmount >= 1){
+        out += '<svg class="star-icon full" viewBox="0 0 24 24"><path d="' + STAR_PATH + '"/></svg>';
+      } else if(fillAmount >= 0.5){
+        if(hasUncertain && uncertainFill >= 1){
+          // known half-star, with the uncertain ceiling covering the rest of this same star
+          out += '<span class="star-icon half lead-known">' +
+            '<svg class="star-bg" viewBox="0 0 24 24"><path d="' + STAR_PATH + '"/></svg>' +
+            '<svg class="star-fg" viewBox="0 0 24 24"><path d="' + STAR_PATH + '"/></svg>' +
+            '</span>';
+        } else {
+          out += '<span class="star-icon half">' +
+            '<svg class="star-bg" viewBox="0 0 24 24"><path d="' + STAR_PATH + '"/></svg>' +
+            '<svg class="star-fg" viewBox="0 0 24 24"><path d="' + STAR_PATH + '"/></svg>' +
+            '</span>';
+        }
+      } else if(hasUncertain && uncertainFill >= 1){
+        out += '<svg class="star-icon capped" viewBox="0 0 24 24"><path d="' + STAR_PATH + '"/></svg>';
+      } else if(hasUncertain && uncertainFill >= 0.5){
+        out += '<span class="star-icon half capped">' +
+          '<svg class="star-bg" viewBox="0 0 24 24"><path d="' + STAR_PATH + '"/></svg>' +
+          '<svg class="star-fg" viewBox="0 0 24 24"><path d="' + STAR_PATH + '"/></svg>' +
+          '</span>';
+      } else {
+        out += '<svg class="star-icon empty" viewBox="0 0 24 24"><path d="' + STAR_PATH + '"/></svg>';
+      }
+    }
+    return out;
+  }
+
+  function initials(name){
+    var parts = name.trim().split(/\s+/);
+    if(parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+    return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+  }
+
+  function escapeHTML(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function slotFieldFor(phase){ return phase === 'ip' ? 'ipSlotId' : 'oopSlotId'; }
+  function formationKeyFor(phase){ return phase === 'ip' ? state.ipFormation : state.oopFormation; }
+
+  // ---------- clear starting XI ----------
+  function clearStarters(){
+    var starters = state.players.filter(function(p){ return p.status === 'starting'; });
+    if(starters.length === 0) return;
+    showConfirm('Move everyone in the Starting XI back to the Bench?', function(){
+      starters.forEach(function(p){ p.status = 'bench'; p.ipSlotId = null; p.oopSlotId = null; });
+      scheduleSave();
+      render();
+    });
+  }
+
+  // ---------- slot assignment ----------
+  function assignToSlot(playerId, slotId, phase){
+    var player = state.players.find(function(p){ return p.id === playerId; });
+    if(!player) return;
+    var field = slotFieldFor(phase);
+    var occupant = state.players.find(function(p){ return p.status === 'starting' && p[field] === slotId && p.id !== playerId; });
+    if(occupant){ occupant[field] = null; }
+    player.status = 'starting';
+    player[field] = slotId;
+    player.loanClub = null;
+    scheduleSave();
+    render();
+  }
+
+  function moveToList(playerId, status){
+    var player = state.players.find(function(p){ return p.id === playerId; });
+    if(!player) return;
+    player.status = status;
+    player.ipSlotId = null;
+    player.oopSlotId = null;
+    if(status !== 'loan') player.loanClub = null;
+    scheduleSave();
+    render();
+  }
+
+  // ---------- phase tabs ----------
+  function renderPhaseTabs(){
+    var wrap = $('phaseTabs');
+    wrap.innerHTML = '';
+    PHASES.forEach(function(ph){
+      var btn = document.createElement('button');
+      btn.className = 'phase-btn' + (ph.id === pitchView ? ' active' : '');
+      btn.textContent = ph.label;
+      btn.addEventListener('click', function(){ pitchView = ph.id; render(); });
+      wrap.appendChild(btn);
+    });
+  }
+
+  // ---------- formation row ----------
+  function renderFormationRow(){
+    var row = $('formationRow');
+    row.innerHTML = '';
+
+    if(pitchView === 'combined'){
+      row.innerHTML = '<span class="formation-summary">In possession: <strong>' + getFormationDef(state.ipFormation).label +
+        '</strong> &nbsp;&#8594;&nbsp; Out of possession: <strong>' + getFormationDef(state.oopFormation).label + '</strong></span>';
+      $('pitchHint').textContent = 'This is a read-only overview. Switch to In possession or Out of possession to move players.';
+      return;
+    }
+
+    $('pitchHint').textContent = 'Drag a card onto an open pitch spot to place them there. Drag a placed player onto another open spot to swap positions within this phase. Everything here saves automatically.';
+
+    var label = document.createElement('span');
+    label.className = 'fx-label';
+    label.textContent = (pitchView === 'ip' ? 'In possession formation' : 'Out of possession formation') + ':';
+
+    var sel = document.createElement('select');
+    sel.id = 'formationSelect';
+    Object.keys(FORMATIONS).forEach(function(key){
+      var opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = FORMATIONS[key].label;
+      if(key === formationKeyFor(pitchView)) opt.selected = true;
+      sel.appendChild(opt);
+    });
+    var customKeys = Object.keys(state.customFormations || {});
+    if(customKeys.length > 0){
+      var group = document.createElement('optgroup');
+      group.label = 'Your custom formations';
+      customKeys.forEach(function(key){
+        var opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = state.customFormations[key].label;
+        if(key === formationKeyFor(pitchView)) opt.selected = true;
+        group.appendChild(opt);
+      });
+      sel.appendChild(group);
+    }
+    sel.addEventListener('change', function(){
+      var field = pitchView === 'ip' ? 'ipFormation' : 'oopFormation';
+      var slotField = slotFieldFor(pitchView);
+      var affected = state.players.filter(function(p){ return p.status === 'starting' && p[slotField]; });
+      var previousKey = formationKeyFor(pitchView);
+      var newKey = sel.value;
+
+      function applyFormationChange(){
+        affected.forEach(function(p){ p[slotField] = null; });
+        state[field] = newKey;
+        scheduleSave();
+        render();
+      }
+
+      if(affected.length > 0){
+        showConfirm(
+          'Changing this formation will clear ' + (pitchView === 'ip' ? 'in-possession' : 'out-of-possession') +
+            ' positions for ' + affected.length + ' player(s). They\'ll need to be re-placed. Continue?',
+          applyFormationChange,
+          function(){ sel.value = previousKey; }
+        );
+      } else {
+        applyFormationChange();
+      }
+    });
+
+    var saveCustomBtn = document.createElement('button');
+    saveCustomBtn.className = 'btn ghost small';
+    saveCustomBtn.type = 'button';
+    saveCustomBtn.textContent = 'Save as custom...';
+    saveCustomBtn.addEventListener('click', function(){ openFormationEditor(formationKeyFor(pitchView)); });
+
+    row.appendChild(label);
+    row.appendChild(sel);
+    row.appendChild(saveCustomBtn);
+
+    var currentKey = formationKeyFor(pitchView);
+    if(state.customFormations && state.customFormations[currentKey]){
+      var deleteCustomBtn = document.createElement('button');
+      deleteCustomBtn.className = 'btn danger-outline small';
+      deleteCustomBtn.type = 'button';
+      deleteCustomBtn.textContent = 'Delete this custom formation';
+      deleteCustomBtn.addEventListener('click', function(){
+        showConfirm('Delete the custom formation "' + state.customFormations[currentKey].label + '"?', function(){
+          delete state.customFormations[currentKey];
+          var field = pitchView === 'ip' ? 'ipFormation' : 'oopFormation';
+          state[field] = pitchView === 'ip' ? '4-3-3' : '4-1-4-1';
+          var slotField = slotFieldFor(pitchView);
+          state.players.forEach(function(p){ if(p.status === 'starting'){ p[slotField] = null; } });
+          scheduleSave();
+          render();
+        });
+      });
+      row.appendChild(deleteCustomBtn);
+    }
+  }
+
+  // ---------- pitch rendering ----------
+  function renderPitch(){
+    var pitch = $('pitch');
+    pitch.querySelectorAll('.slot, svg.connectors').forEach(function(el){ el.remove(); });
+
+    if(pitchView === 'combined'){
+      $('combinedLegend').innerHTML =
+        '<div class="combined-legend">' +
+          '<span class="lg-item"><span class="lg-dot"></span>In possession position</span>' +
+          '<span class="lg-item"><span class="lg-dot ghost"></span>Out of possession position</span>' +
+        '</div>';
+      renderCombinedPitch(pitch);
+    } else {
+      $('combinedLegend').innerHTML = '';
+      renderPhasePitch(pitch, pitchView);
+    }
+  }
+
+  function renderPhasePitch(pitch, phase){
+    var f = getFormationDef(formationKeyFor(phase));
+    var field = slotFieldFor(phase);
+
+    f.slots.forEach(function(slot){
+      var occupant = state.players.find(function(p){ return p.status === 'starting' && p[field] === slot.id; });
+      var el = document.createElement('div');
+      el.className = 'slot pos-' + slot.pos + (occupant ? ' filled' : ' empty');
+      el.style.left = slot.x + '%';
+      el.style.top = slot.y + '%';
+
+      var chipText = occupant ? initials(occupant.name) : slot.label;
+      el.innerHTML =
+        '<div class="chip">' + chipText + '</div>' +
+        '<div class="name-tag">' + (occupant ? escapeHTML(occupant.name) : '&mdash;') + '</div>' +
+        '<div class="pos-label">' + slot.label + '</div>';
+
+      if(occupant){
+        el.draggable = true;
+        el.addEventListener('dragstart', function(e){
+          e.dataTransfer.setData('text/plain', JSON.stringify({playerId:occupant.id, from:'pitch-' + phase}));
+          setTimeout(function(){ el.classList.add('dragging'); }, 0);
+        });
+        el.addEventListener('dragend', function(){ el.classList.remove('dragging'); });
+        el.addEventListener('click', function(){ openEditForm(occupant.id); });
+      }
+
+      el.addEventListener('dragover', function(e){ e.preventDefault(); el.classList.add('drag-over'); });
+      el.addEventListener('dragleave', function(){ el.classList.remove('drag-over'); });
+      el.addEventListener('drop', function(e){
+        e.preventDefault();
+        el.classList.remove('drag-over');
+        var data = safeParse(e.dataTransfer.getData('text/plain'));
+        if(!data) return;
+        assignToSlot(data.playerId, slot.id, phase);
+      });
+
+      pitch.appendChild(el);
+    });
+  }
+
+  function renderCombinedPitch(pitch){
+    var ipF = getFormationDef(state.ipFormation);
+    var oopF = getFormationDef(state.oopFormation);
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('class', 'connectors');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    pitch.appendChild(svg);
+
+    var starters = state.players.filter(function(p){ return p.status === 'starting' && (p.ipSlotId || p.oopSlotId); });
+
+    starters.forEach(function(p){
+      var ipSlot = p.ipSlotId ? ipF.slots.find(function(s){ return s.id === p.ipSlotId; }) : null;
+      var oopSlot = p.oopSlotId ? oopF.slots.find(function(s){ return s.id === p.oopSlotId; }) : null;
+
+      if(ipSlot && oopSlot){
+        var line = document.createElementNS(svgNS, 'line');
+        line.setAttribute('x1', ipSlot.x); line.setAttribute('y1', ipSlot.y);
+        line.setAttribute('x2', oopSlot.x); line.setAttribute('y2', oopSlot.y);
+        line.setAttribute('stroke', 'rgba(217,164,65,0.55)');
+        line.setAttribute('stroke-width', '0.6');
+        line.setAttribute('stroke-dasharray', '2,1.5');
+        svg.appendChild(line);
+      }
+      if(ipSlot){ pitch.appendChild(makeCombinedChip(p, ipSlot, false)); }
+      if(oopSlot){ pitch.appendChild(makeCombinedChip(p, oopSlot, true)); }
+    });
+  }
+
+  function makeCombinedChip(occupant, slot, isGhost){
+    var el = document.createElement('div');
+    el.className = 'slot filled pos-' + occupant.position + (isGhost ? ' ghost' : '');
+    el.style.left = slot.x + '%';
+    el.style.top = slot.y + '%';
+    el.innerHTML =
+      '<div class="chip">' + initials(occupant.name) + '</div>' +
+      '<div class="name-tag">' + escapeHTML(occupant.name) + '</div>';
+    el.addEventListener('click', function(){ openEditForm(occupant.id); });
+    return el;
+  }
+
+  // ---------- unassigned starters strip ----------
+  function renderUnassignedRow(){
+    var wrap = $('unassignedRow');
+    wrap.innerHTML = '';
+
+    if(pitchView === 'combined'){ wrap.style.display = 'none'; return; }
+    wrap.style.display = 'block';
+
+    var field = slotFieldFor(pitchView);
+    var list = state.players.filter(function(p){ return p.status === 'starting' && !p[field]; });
+
+    var label = document.createElement('div');
+    label.className = 'ur-label';
+    label.textContent = 'Starting XI still needing an ' + (pitchView === 'ip' ? 'in-possession' : 'out-of-possession') + ' spot:';
+    wrap.appendChild(label);
+
+    var listEl = document.createElement('div');
+    listEl.className = 'unassigned-list';
+
+    if(list.length === 0){
+      var span = document.createElement('span');
+      span.style.cssText = 'color:var(--muted);font-size:12.5px;';
+      span.textContent = 'Everyone is placed.';
+      listEl.appendChild(span);
+    }
+
+    list.forEach(function(p){
+      var chip = document.createElement('div');
+      chip.className = 'unassigned-chip pos-' + p.position;
+      chip.draggable = true;
+      chip.innerHTML = '<span class="dot"></span>' + escapeHTML(p.name) + ' <span class="ac-pos">' + p.position + '</span>';
+      chip.addEventListener('dragstart', function(e){
+        e.dataTransfer.setData('text/plain', JSON.stringify({playerId:p.id, from:'unassigned'}));
+      });
+      chip.addEventListener('click', function(){ openEditForm(p.id); });
+      listEl.appendChild(chip);
+    });
+
+    listEl.addEventListener('dragover', function(e){ e.preventDefault(); listEl.classList.add('drag-over'); });
+    listEl.addEventListener('dragleave', function(){ listEl.classList.remove('drag-over'); });
+    listEl.addEventListener('drop', function(e){
+      e.preventDefault();
+      listEl.classList.remove('drag-over');
+      var data = safeParse(e.dataTransfer.getData('text/plain'));
+      if(!data) return;
+      if(data.from === 'pitch-' + pitchView){
+        var p = state.players.find(function(pl){ return pl.id === data.playerId; });
+        if(p){ p[field] = null; scheduleSave(); render(); }
+      }
+    });
+
+    wrap.appendChild(listEl);
+  }
+
+  // ---------- squad list tabs ----------
+  function renderTabs(){
+    var tabsEl = $('tabs');
+    tabsEl.innerHTML = '';
+    TABS.forEach(function(t){
+      var count = state.players.filter(function(p){ return p.status === t.id; }).length;
+      var btn = document.createElement('button');
+      btn.className = 'tab-btn' + (t.id === activeTab ? ' active' : '');
+      btn.innerHTML = t.label + ' <span class="count">' + count + '</span>';
+      btn.addEventListener('click', function(){ activeTab = t.id; render(); });
+      btn.addEventListener('dragover', function(e){ e.preventDefault(); btn.classList.add('drag-over'); });
+      btn.addEventListener('dragleave', function(){ btn.classList.remove('drag-over'); });
+      btn.addEventListener('drop', function(e){
+        e.preventDefault();
+        btn.classList.remove('drag-over');
+        var data = safeParse(e.dataTransfer.getData('text/plain'));
+        if(!data) return;
+        moveToList(data.playerId, t.id);
+      });
+      tabsEl.appendChild(btn);
+    });
+    var current = TABS.find(function(t){ return t.id === activeTab; });
+    $('tabHint').textContent = current ? current.hint : '';
+  }
+
+  function checkDuplicateName(){
+    var warnEl = $('nameWarning');
+    if(!warnEl) return;
+    var raw = $('f_name').value.trim();
+    if(raw === ''){ warnEl.style.display = 'none'; return; }
+    var lower = raw.toLowerCase();
+    var dup = state.players.some(function(p){
+      return p.id !== editingId && p.name.trim().toLowerCase() === lower;
+    });
+    if(dup){
+      warnEl.textContent = 'A player named "' + raw + '" already exists.';
+      warnEl.style.display = 'block';
+    } else {
+      warnEl.style.display = 'none';
+    }
+  }
+
+  function renderFormPreview(){
+    var wrap = $('formPreview');
+    if(!wrap) return;
+    wrap.innerHTML = '';
+
+    var devGoalChecked = document.querySelector('input[name="f_developmentGoal"]:checked');
+    var statusVal = $('f_status').value;
+    var ceilingRaw = $('f_potentialCeiling').value;
+
+    var previewPlayer = {
+      id: 'preview',
+      name: $('f_name').value.trim() || 'Player Name',
+      position: $('f_position').value,
+      age: $('f_age').value ? parseInt($('f_age').value,10) : null,
+      status: statusVal,
+      rating: parseFloat($('f_rating').value),
+      potential: parseFloat($('f_potential').value),
+      potentialCeiling: ceilingRaw === '' ? null : parseFloat(ceilingRaw),
+      wage: parseCommaNumber($('f_wage').value),
+      forSale: $('f_forSale').checked,
+      loanClub: $('f_loanClub').value.trim() || null,
+      loanToBuy: $('f_loanToBuy').checked,
+      optionalFee: $('f_optionalFee').value.trim(),
+      mandatoryFee: $('f_mandatoryFee').value.trim(),
+      developmentGoal: devGoalChecked ? devGoalChecked.value : null,
+      note: $('f_note').value.trim()
+    };
+
+    var card = buildPlayerCard(previewPlayer);
+    card.draggable = false;
+    wrap.appendChild(card);
+  }
+
+  function buildPlayerCard(p){
+    var card = document.createElement('div');
+    card.className = 'player-card pos-' + p.position;
+    card.draggable = true;
+    card.addEventListener('dragstart', function(e){
+      e.dataTransfer.setData('text/plain', JSON.stringify({playerId:p.id, from:activeTab}));
+    });
+
+    var loanBadge = '';
+    if(p.status === 'loan'){
+      var lines = [];
+      if(p.loanClub) lines.push('<div class="lb-title">On loan &middot; ' + escapeHTML(p.loanClub) + '</div>');
+      else lines.push('<div class="lb-title">On loan</div>');
+      if(p.loanToBuy){
+        lines.push('<div>Buy clause included</div>');
+        if(p.optionalFee) lines.push('<div>Optional fee: ' + escapeHTML(p.optionalFee) + '</div>');
+        if(p.mandatoryFee) lines.push('<div>Mandatory fee: ' + escapeHTML(p.mandatoryFee) + '</div>');
+      }
+      loanBadge = '<div class="loan-badge">' + lines.join('') + '</div>';
+    }
+    var devBadge = '';
+    if(p.developmentGoal){
+      var devText = p.developmentGoal === 'play' ? 'Developing to play' : 'Developing to sell';
+      var devClass = 'dev-badge ' + (p.developmentGoal === 'play' ? 'dev-play' : 'dev-sell');
+      devBadge = '<div class="' + devClass + '">' + devText + '</div>';
+    }
+    var noteHTML = p.note ? '<div class="note">' + escapeHTML(p.note) + '</div>' : '';
+    var wageHTML = (typeof p.wage === 'number' && !isNaN(p.wage))
+      ? '<div class="wage-line"><span class="wl-label">Wage</span>' + formatMoney(p.wage) + '/wk</div>'
+      : '';
+    var forSaleTag = p.forSale ? '<span class="for-sale-tag">For sale</span>' : '';
+    var caRowHTML = starsHTML(p.rating, 'CA');
+    var potentialNum = parseFloat(p.potential) || 0;
+    var ceilingNum = (typeof p.potentialCeiling === 'number' && !isNaN(p.potentialCeiling)) ? p.potentialCeiling : null;
+    var paRowHTML = starsHTML(potentialNum, 'PA', ceilingNum);
+
+    card.innerHTML =
+      '<div class="row1"><div>' +
+        '<div class="pname">' + escapeHTML(p.name) + forSaleTag + '</div>' +
+        '<div class="pmeta">' + p.position + (p.age ? ' &middot; ' + p.age + ' yrs' : '') + '</div>' +
+      '</div></div>' +
+      wageHTML +
+      '<div class="stars">' + caRowHTML + '</div>' +
+      '<div class="stars">' + paRowHTML + '</div>' +
+      loanBadge + devBadge + noteHTML +
+      '<div class="card-actions">' +
+        '<button class="btn small edit-btn">Edit</button>' +
+        '<button class="btn small start-btn">Add to XI</button>' +
+      '</div>';
+
+    card.querySelector('.edit-btn').addEventListener('click', function(e){
+      e.stopPropagation();
+      openEditForm(p.id);
+    });
+    card.querySelector('.start-btn').addEventListener('click', function(e){
+      e.stopPropagation();
+      var phase = pitchView === 'oop' ? 'oop' : 'ip';
+      var f = getFormationDef(formationKeyFor(phase));
+      var field = slotFieldFor(phase);
+      var isOpen = function(s){
+        return !state.players.some(function(pl){ return pl.status === 'starting' && pl[field] === s.id; });
+      };
+      var target = f.slots.find(function(s){ return s.pos === p.position && isOpen(s); }) || f.slots.find(isOpen);
+      if(!target){ showAlert('No open spot in the ' + (phase === 'ip' ? 'in-possession' : 'out-of-possession') + ' formation — move someone off first.'); return; }
+      assignToSlot(p.id, target.id, phase);
+    });
+
+    return card;
+  }
+
+  function emptyStateEl(message){
+    var empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.textContent = message;
+    return empty;
+  }
+
+  function appendSplitSection(container, title, players, emptyMessage){
+    var section = document.createElement('div');
+    section.className = 'split-section';
+
+    var heading = document.createElement('div');
+    heading.className = 'split-section-heading';
+    heading.textContent = title + ' (' + players.length + ')';
+    section.appendChild(heading);
+
+    var sub = document.createElement('div');
+    sub.className = 'player-grid split-section-grid';
+    if(players.length === 0){
+      sub.appendChild(emptyStateEl(emptyMessage || 'No players here.'));
+    } else {
+      players.forEach(function(p){ sub.appendChild(buildPlayerCard(p)); });
+    }
+    section.appendChild(sub);
+    container.appendChild(section);
+  }
+
+  function comparePlayers(a, b, key){
+    function ageVal(p){ return typeof p.age === 'number' ? p.age : null; }
+    function wageVal(p){ return typeof p.wage === 'number' ? p.wage : null; }
+    function nullsLast(av, bv, dir){
+      if(av === null && bv === null) return 0;
+      if(av === null) return 1;
+      if(bv === null) return -1;
+      return dir === 'asc' ? av - bv : bv - av;
+    }
+    switch(key){
+      case 'name-desc': return b.name.localeCompare(a.name);
+      case 'age-asc': return nullsLast(ageVal(a), ageVal(b), 'asc');
+      case 'age-desc': return nullsLast(ageVal(a), ageVal(b), 'desc');
+      case 'wage-desc': return nullsLast(wageVal(a), wageVal(b), 'desc');
+      case 'wage-asc': return nullsLast(wageVal(a), wageVal(b), 'asc');
+      case 'rating-desc': return (b.rating || 0) - (a.rating || 0);
+      case 'potential-desc': return (parseFloat(b.potential) || 0) - (parseFloat(a.potential) || 0);
+      case 'name-asc':
+      default: return a.name.localeCompare(b.name);
+    }
+  }
+
+  function renderGrid(){
+    var grid = $('playerGrid');
+    grid.innerHTML = '';
+    var fullList = state.players.filter(function(p){ return p.status === activeTab; });
+
+    if(fullList.length === 0){
+      grid.appendChild(emptyStateEl('Nothing here yet. Add a player, or drag one in from another list.'));
+      return;
+    }
+
+    var list = fullList;
+    var q = searchQuery.trim().toLowerCase();
+    if(q !== ''){
+      list = list.filter(function(p){ return p.name.toLowerCase().indexOf(q) !== -1; });
+    }
+    list = list.slice().sort(function(a,b){ return comparePlayers(a, b, sortKey); });
+
+    if(list.length === 0){
+      grid.appendChild(emptyStateEl('No players match your search.'));
+      return;
+    }
+
+    if(activeTab === 'loan'){
+      var older = list.filter(function(p){ return typeof p.age === 'number' && p.age > 25; });
+      var young = list.filter(function(p){ return !(typeof p.age === 'number' && p.age > 25); });
+
+      var loanColumns = document.createElement('div');
+      loanColumns.className = 'split-columns';
+      appendSplitSection(loanColumns, '15–25', young, 'No players in this range.');
+      appendSplitSection(loanColumns, '26 and up', older, 'No players in this range.');
+      grid.appendChild(loanColumns);
+      return;
+    }
+
+    if(activeTab === 'development'){
+      var toPlay = list.filter(function(p){ return p.developmentGoal !== 'sell'; });
+      var toSell = list.filter(function(p){ return p.developmentGoal === 'sell'; });
+
+      var devColumns = document.createElement('div');
+      devColumns.className = 'split-columns';
+      appendSplitSection(devColumns, 'To play', toPlay, 'No players here.');
+      appendSplitSection(devColumns, 'To sell', toSell, 'No players here.');
+      grid.appendChild(devColumns);
+      return;
+    }
+
+    list.forEach(function(p){ grid.appendChild(buildPlayerCard(p)); });
+  }
+
+  function formatMoney(n){
+    if(n === null || n === undefined || isNaN(n)) return '—';
+    return '£' + Math.round(n).toLocaleString('en-GB');
+  }
+
+  function parseCommaNumber(str){
+    if(str === null || str === undefined) return null;
+    var cleaned = String(str).replace(/,/g, '').trim();
+    if(cleaned === '') return null;
+    var n = parseFloat(cleaned);
+    return isNaN(n) ? null : n;
+  }
+
+  function formatCommaValue(n){
+    if(typeof n !== 'number' || isNaN(n)) return '';
+    return Math.round(n).toLocaleString('en-GB');
+  }
+
+  function attachCommaFormatting(input){
+    input.addEventListener('input', function(){
+      var fromEnd = input.value.length - input.selectionStart;
+      var digitsOnly = input.value.replace(/[^\d]/g, '');
+      var formatted = digitsOnly === '' ? '' : parseInt(digitsOnly, 10).toLocaleString('en-GB');
+      input.value = formatted;
+      var pos = Math.max(0, formatted.length - fromEnd);
+      input.setSelectionRange(pos, pos);
+    });
+  }
+
+  function avgWage(list){
+    var withWage = list.filter(function(p){ return typeof p.wage === 'number' && !isNaN(p.wage); });
+    if(withWage.length === 0) return null;
+    var sum = withWage.reduce(function(a,p){ return a + p.wage; }, 0);
+    return sum / withWage.length;
+  }
+
+  function sumWage(list){
+    var withWage = list.filter(function(p){ return typeof p.wage === 'number' && !isNaN(p.wage); });
+    if(withWage.length === 0) return null;
+    return withWage.reduce(function(a,p){ return a + p.wage; }, 0);
+  }
+
+  var WAGE_GROUPS = [
+    {key:'starting', label:'Starting XI avg wage'},
+    {key:'bench',    label:'Bench avg wage'},
+    {key:'backup',   label:'Backup avg wage'},
+    {key:'total',    label:'Total avg wage per week'}
+  ];
+
+  function wageGroupList(key){
+    if(key === 'starting') return state.players.filter(function(p){ return p.status === 'starting'; });
+    if(key === 'bench') return state.players.filter(function(p){ return p.status === 'bench'; });
+    if(key === 'backup') return state.players.filter(function(p){ return p.status === 'backup'; });
+    return state.players.filter(function(p){ return p.status !== 'development' && p.status !== 'loan'; });
+  }
+
+  function buildWageStatsSkeleton(){
+    if(!state.wageTargetPercents){ state.wageTargetPercents = {starting:null, bench:null, backup:null, total:null}; }
+    var wrap = $('wageStats');
+    wrap.innerHTML = '';
+    WAGE_GROUPS.forEach(function(g){
+      var card = document.createElement('div');
+      card.className = 'wage-card';
+      card.dataset.group = g.key;
+
+      var labelEl = document.createElement('div');
+      labelEl.className = 'wage-label';
+      labelEl.textContent = g.label;
+
+      var valueEl = document.createElement('div');
+      valueEl.className = 'wage-value';
+
+      var totalEl = document.createElement('div');
+      totalEl.className = 'wage-total';
+
+      var targetAmountEl = document.createElement('div');
+      targetAmountEl.className = 'wage-target-amount';
+
+      var diffEl = document.createElement('div');
+      diffEl.className = 'wage-diff';
+
+      var targetRow = document.createElement('div');
+      targetRow.className = 'wage-target-inline';
+      var wtLabel = document.createElement('span');
+      wtLabel.className = 'wt-label';
+      wtLabel.textContent = 'Target';
+      var wtInput = document.createElement('input');
+      wtInput.type = 'number';
+      wtInput.min = '0';
+      wtInput.max = '100';
+      wtInput.step = '1';
+      wtInput.placeholder = '70';
+      wtInput.className = 'wt-input';
+      var wtSuffix = document.createElement('span');
+      wtSuffix.className = 'wt-suffix';
+      wtSuffix.textContent = '% of budget';
+      wtInput.addEventListener('input', function(){
+        var raw = wtInput.value;
+        state.wageTargetPercents[g.key] = raw === '' ? null : parseFloat(raw);
+        scheduleSave();
+        updateWageStatsValues();
+      });
+      targetRow.appendChild(wtLabel);
+      targetRow.appendChild(wtInput);
+      targetRow.appendChild(wtSuffix);
+
+      var subEl = document.createElement('div');
+      subEl.className = 'wage-sub';
+
+      card.appendChild(labelEl);
+      card.appendChild(valueEl);
+      card.appendChild(targetAmountEl);
+      card.appendChild(totalEl);
+      card.appendChild(diffEl);
+      card.appendChild(targetRow);
+      card.appendChild(subEl);
+      wrap.appendChild(card);
+    });
+    updateWageStatsValues();
+  }
+
+  function updateWageStatsValues(){
+    if(!state.wageTargetPercents){ state.wageTargetPercents = {starting:null, bench:null, backup:null, total:null}; }
+
+    var budgetInput = $('wageBudgetInput');
+    if(budgetInput && document.activeElement !== budgetInput){
+      budgetInput.value = (typeof state.wageBudget === 'number') ? formatCommaValue(state.wageBudget) : '';
+    }
+    var hasBudget = typeof state.wageBudget === 'number' && !isNaN(state.wageBudget);
+
+    WAGE_GROUPS.forEach(function(g){
+      var card = document.querySelector('.wage-card[data-group="' + g.key + '"]');
+      if(!card) return;
+      var list = wageGroupList(g.key);
+      var avg = avgWage(list);
+      var total = sumWage(list);
+      var percent = state.wageTargetPercents[g.key];
+      var hasPercent = typeof percent === 'number' && !isNaN(percent);
+      var target = (hasBudget && hasPercent) ? (state.wageBudget * percent / 100) : null;
+      var hasTarget = target !== null;
+
+      card.querySelector('.wage-value').textContent = avg === null ? '—' : formatMoney(avg) + '/wk';
+      card.querySelector('.wage-total').textContent = 'Total: ' + (total === null ? '—' : formatMoney(total) + '/wk');
+      card.querySelector('.wage-sub').textContent = list.length + ' player' + (list.length === 1 ? '' : 's');
+
+      var wtInput = card.querySelector('.wt-input');
+      if(document.activeElement !== wtInput){
+        wtInput.value = hasPercent ? percent : '';
+      }
+
+      var targetAmountEl = card.querySelector('.wage-target-amount');
+      var diffEl = card.querySelector('.wage-diff');
+      card.classList.toggle('has-target', hasTarget && avg !== null);
+
+      if(hasPercent && !hasBudget){
+        targetAmountEl.textContent = 'Set a total wage budget above to calculate';
+      } else if(hasTarget){
+        targetAmountEl.textContent = 'Target: ' + formatMoney(target) + '/wk';
+      } else {
+        targetAmountEl.textContent = '';
+      }
+
+      if(hasTarget && avg !== null){
+        var rounded = Math.round(avg - target);
+        diffEl.className = 'wage-diff';
+        if(rounded === 0){
+          diffEl.classList.add('even');
+          diffEl.textContent = 'On target';
+        } else if(rounded > 0){
+          diffEl.classList.add('over');
+          diffEl.textContent = '+' + formatMoney(rounded) + '/wk over';
+        } else {
+          diffEl.classList.add('under');
+          diffEl.textContent = '-' + formatMoney(Math.abs(rounded)) + '/wk under';
+        }
+      } else {
+        diffEl.textContent = '';
+        diffEl.className = 'wage-diff';
+      }
+    });
+  }
+
+  function renderOverview(){
+    var wrap = $('overviewGrid');
+    if(!wrap) return;
+    wrap.innerHTML = '';
+
+    var all = state.players;
+    var statusCounts = {starting:0, bench:0, backup:0, loan:0, development:0};
+    all.forEach(function(p){ if(statusCounts.hasOwnProperty(p.status)){ statusCounts[p.status]++; } });
+
+    // Card 1: total players
+    var totalCard = document.createElement('div');
+    totalCard.className = 'overview-card';
+    totalCard.innerHTML =
+      '<div class="ov-label">Total players</div>' +
+      '<div class="ov-value">' + all.length + '</div>' +
+      '<div class="ov-sub">' + statusCounts.starting + ' starting &middot; ' + statusCounts.bench + ' bench &middot; ' +
+        statusCounts.backup + ' backup &middot; ' + statusCounts.loan + ' loan &middot; ' + statusCounts.development + ' development</div>';
+    wrap.appendChild(totalCard);
+
+    // Card 2: average age
+    var withAge = all.filter(function(p){ return typeof p.age === 'number'; });
+    var avgAge = withAge.length ? (withAge.reduce(function(a,p){ return a+p.age; }, 0) / withAge.length) : null;
+    var ageCard = document.createElement('div');
+    ageCard.className = 'overview-card';
+    ageCard.innerHTML =
+      '<div class="ov-label">Average age</div>' +
+      '<div class="ov-value">' + (avgAge === null ? '—' : avgAge.toFixed(1) + ' yrs') + '</div>' +
+      '<div class="ov-sub">' + withAge.length + ' player' + (withAge.length === 1 ? '' : 's') + ' with age set</div>';
+    wrap.appendChild(ageCard);
+
+    // Card 3: position balance
+    var posCounts = {GK:0, DF:0, MF:0, FW:0};
+    all.forEach(function(p){ if(posCounts.hasOwnProperty(p.position)){ posCounts[p.position]++; } });
+    var posColors = {GK:'var(--gold)', DF:'var(--pos-df)', MF:'var(--pos-mf)', FW:'var(--pos-fw)'};
+    var posRows = ['GK','DF','MF','FW'].map(function(pos){
+      return '<div class="pb-row"><span class="pb-dot" style="background:' + posColors[pos] + ';"></span>' +
+        pos + '<span class="pb-count">' + posCounts[pos] + '</span></div>';
+    }).join('');
+    var posCard = document.createElement('div');
+    posCard.className = 'overview-card';
+    posCard.innerHTML =
+      '<div class="ov-label">Position balance</div>' +
+      '<div class="position-balance-rows">' + posRows + '</div>';
+    wrap.appendChild(posCard);
+
+    // Card 4: wage bill vs budget
+    var billList = wageGroupList('total');
+    var bill = sumWage(billList);
+    var hasBudget = typeof state.wageBudget === 'number' && !isNaN(state.wageBudget);
+    var billCard = document.createElement('div');
+    billCard.className = 'overview-card';
+    var billValueHTML = '<div class="ov-value">' + (bill === null ? '—' : formatMoney(bill) + '/wk') + '</div>';
+    var billSubHTML;
+    var barHTML = '';
+    if(hasBudget && bill !== null){
+      var pct = state.wageBudget > 0 ? (bill / state.wageBudget) * 100 : 0;
+      var over = pct > 100;
+      billSubHTML = '<div class="ov-sub">' + Math.round(pct) + '% of ' + formatMoney(state.wageBudget) + '/wk budget</div>';
+      barHTML = '<div class="wage-bar-track"><div class="wage-bar-fill' + (over ? ' over' : '') + '" style="width:' + Math.min(100, pct) + '%;"></div></div>';
+    } else {
+      billSubHTML = '<div class="ov-sub">Set a total wage budget above to compare</div>';
+    }
+    billCard.innerHTML = '<div class="ov-label">Wage bill vs budget</div>' + billValueHTML + billSubHTML + barHTML;
+    wrap.appendChild(billCard);
+  }
+
+  function render(){
+    updateWageStatsValues();
+    renderOverview();
+    renderPhaseTabs();
+    renderFormationRow();
+    renderPitch();
+    renderUnassignedRow();
+    renderTabs();
+    renderGrid();
+  }
+
+  // ---------- form ----------
+  function openAddForm(){
+    editingId = null;
+    $('formTitle').textContent = 'Add player';
+    var startingOpt = $('f_status').querySelector('option[value="starting"]');
+    if(startingOpt) startingOpt.remove();
+    $('f_name').value = '';
+    $('f_position').value = 'MF';
+    $('f_age').value = '';
+    $('f_status').value = activeTab;
+    $('f_rating').value = '5';
+    $('f_potential').value = '5';
+    $('f_potentialCeiling').value = '';
+    enforceAbilityConstraint();
+    $('f_wage').value = '';
+    $('f_forSale').checked = false;
+    $('f_loanClub').value = '';
+    $('f_loanToBuy').checked = false;
+    $('f_devGoalPlay').checked = false;
+    $('f_devGoalSell').checked = false;
+    $('f_optionalFee').value = '';
+    $('f_mandatoryFee').value = '';
+    $('f_note').value = '';
+    toggleLoanField();
+    $('deleteBtn').style.display = 'none';
+    $('formPanel').classList.add('open');
+    renderFormPreview();
+    checkDuplicateName();
+    $('f_name').focus();
+  }
+
+  function openEditForm(playerId){
+    var p = state.players.find(function(pl){ return pl.id === playerId; });
+    if(!p) return;
+    editingId = playerId;
+    $('formTitle').textContent = 'Edit player';
+
+    var statusSel = $('f_status');
+    var startingOpt = statusSel.querySelector('option[value="starting"]');
+    if(p.status === 'starting'){
+      if(!startingOpt){
+        startingOpt = document.createElement('option');
+        startingOpt.value = 'starting';
+        startingOpt.textContent = 'Starting XI (keep placed)';
+        statusSel.insertBefore(startingOpt, statusSel.firstChild);
+      }
+    } else if(startingOpt){
+      startingOpt.remove();
+    }
+
+    $('f_name').value = p.name;
+    $('f_position').value = p.position;
+    $('f_age').value = p.age || '';
+    statusSel.value = p.status;
+    $('f_rating').value = p.rating || 5;
+    $('f_potential').value = p.potential || 5;
+    $('f_potentialCeiling').value = (typeof p.potentialCeiling === 'number') ? String(p.potentialCeiling) : '';
+    enforceAbilityConstraint();
+    $('f_wage').value = (typeof p.wage === 'number') ? formatCommaValue(p.wage) : '';
+    $('f_forSale').checked = !!p.forSale;
+    $('f_loanClub').value = p.loanClub || '';
+    $('f_loanToBuy').checked = !!p.loanToBuy;
+    $('f_devGoalPlay').checked = p.developmentGoal === 'play';
+    $('f_devGoalSell').checked = p.developmentGoal === 'sell';
+    $('f_optionalFee').value = p.optionalFee || '';
+    $('f_mandatoryFee').value = p.mandatoryFee || '';
+    $('f_note').value = p.note || '';
+    toggleLoanField();
+    $('deleteBtn').style.display = 'block';
+    $('formPanel').classList.add('open');
+    renderFormPreview();
+    checkDuplicateName();
+    $('formPanel').scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  function closeForm(){
+    $('formPanel').classList.remove('open');
+    editingId = null;
+  }
+
+  function toggleLoanField(){
+    var isLoan = $('f_status').value === 'loan';
+    $('loanClubField').classList.toggle('show', isLoan);
+    var buyChecked = $('f_loanToBuy').checked;
+    $('optionalFeeField').classList.toggle('show', buyChecked);
+    $('mandatoryFeeField').classList.toggle('show', buyChecked);
+    var statusVal = $('f_status').value;
+    $('developmentGoalField').classList.toggle('show', statusVal === 'development' || statusVal === 'loan');
+  }
+
+  function enforceAbilityConstraint(){
+    var ratSel = $('f_rating');
+    var potSel = $('f_potential');
+    var potVal = parseFloat(potSel.value);
+
+    // Current ability can't exceed the potential rating
+    Array.prototype.forEach.call(ratSel.options, function(opt){
+      opt.disabled = (parseFloat(opt.value) > potVal);
+    });
+    if(parseFloat(ratSel.value) > potVal){
+      ratSel.value = String(potVal);
+    }
+
+    // Potential can't be set below the current ability
+    var ratVal = parseFloat(ratSel.value) || 0;
+    Array.prototype.forEach.call(potSel.options, function(opt){
+      opt.disabled = (parseFloat(opt.value) < ratVal);
+    });
+    if(parseFloat(potSel.value) < ratVal){
+      potSel.value = String(ratVal);
+    }
+
+    // Uncertain ceiling can't be set below the potential rating (blank = same as potential)
+    var ceilSel = $('f_potentialCeiling');
+    var potNow = parseFloat(potSel.value);
+    Array.prototype.forEach.call(ceilSel.options, function(opt){
+      if(opt.value === ''){ opt.disabled = false; return; }
+      opt.disabled = (parseFloat(opt.value) < potNow);
+    });
+    if(ceilSel.value !== '' && parseFloat(ceilSel.value) < potNow){
+      ceilSel.value = '';
+    }
+  }
+
+  function saveForm(){
+    var name = $('f_name').value.trim();
+    if(!name){ $('f_name').focus(); return; }
+    var buyClauseChecked = $('f_loanToBuy').checked;
+    var newStatus = buyClauseChecked ? 'loan' : $('f_status').value;
+    var wageVal = parseCommaNumber($('f_wage').value);
+    var forSaleVal = $('f_forSale').checked;
+    var isLoan = newStatus === 'loan';
+    var loanClubVal = isLoan ? $('f_loanClub').value.trim() : null;
+    var loanToBuyVal = isLoan && buyClauseChecked;
+    var optionalFeeVal = loanToBuyVal ? $('f_optionalFee').value.trim() : '';
+    var mandatoryFeeVal = loanToBuyVal ? $('f_mandatoryFee').value.trim() : '';
+    var showsDevGoal = newStatus === 'development' || newStatus === 'loan';
+    var devGoalChecked = document.querySelector('input[name="f_developmentGoal"]:checked');
+    var developmentGoalVal = showsDevGoal && devGoalChecked ? devGoalChecked.value : null;
+    var potentialVal = parseFloat($('f_potential').value);
+    var potentialCeilingRaw = $('f_potentialCeiling').value;
+    var potentialCeilingVal = potentialCeilingRaw === '' ? null : parseFloat(potentialCeilingRaw);
+
+    if(editingId){
+      var p = state.players.find(function(pl){ return pl.id === editingId; });
+      if(!p) return;
+      p.name = name;
+      p.position = $('f_position').value;
+      p.age = $('f_age').value ? parseInt($('f_age').value,10) : null;
+      p.rating = parseFloat($('f_rating').value);
+      p.potential = potentialVal;
+      p.potentialCeiling = potentialCeilingVal;
+      p.wage = wageVal;
+      p.forSale = forSaleVal;
+      p.note = $('f_note').value.trim();
+
+      if(newStatus === 'starting'){
+        p.status = 'starting'; // keep current pitch placement untouched
+      } else {
+        p.status = newStatus;
+        p.ipSlotId = null;
+        p.oopSlotId = null;
+        activeTab = newStatus;
+      }
+      p.loanClub = loanClubVal;
+      p.loanToBuy = loanToBuyVal;
+      p.optionalFee = optionalFeeVal;
+      p.mandatoryFee = mandatoryFeeVal;
+      p.developmentGoal = developmentGoalVal;
+    } else {
+      state.players.push({
+        id: uid(),
+        name: name,
+        position: $('f_position').value,
+        age: $('f_age').value ? parseInt($('f_age').value,10) : null,
+        status: newStatus,
+        ipSlotId: null,
+        oopSlotId: null,
+        rating: parseFloat($('f_rating').value),
+        potential: potentialVal,
+        potentialCeiling: potentialCeilingVal,
+        wage: wageVal,
+        forSale: forSaleVal,
+        loanClub: loanClubVal,
+        loanToBuy: loanToBuyVal,
+        developmentGoal: developmentGoalVal,
+        optionalFee: optionalFeeVal,
+        mandatoryFee: mandatoryFeeVal,
+        note: $('f_note').value.trim()
+      });
+      activeTab = newStatus;
+    }
+    scheduleSave();
+    closeForm();
+    render();
+  }
+
+  function deletePlayer(){
+    if(!editingId) return;
+    var p = state.players.find(function(pl){ return pl.id === editingId; });
+    if(!p) return;
+    var idToDelete = editingId;
+    showConfirm('Delete ' + p.name + ' from the squad? This can\'t be undone.', function(){
+      state.players = state.players.filter(function(pl){ return pl.id !== idToDelete; });
+      scheduleSave();
+      closeForm();
+      render();
+    });
+  }
+
+  // ---------- init ----------
+  function init(){
+    $('clearStartersBtn').addEventListener('click', clearStarters);
+    $('exportBtn').addEventListener('click', exportBackup);
+    $('compareBtn').addEventListener('click', openCompareModal);
+    $('compareCloseBtn').addEventListener('click', closeCompareModal);
+    $('editorCloseBtn').addEventListener('click', closeFormationEditor);
+    $('editorSaveBtn').addEventListener('click', saveCustomFormation);
+    $('comparePlayerA').addEventListener('change', renderCompareCards);
+    $('comparePlayerB').addEventListener('change', renderCompareCards);
+    $('importBtn').addEventListener('click', function(){ $('importFile').click(); });
+    $('importFile').addEventListener('change', function(e){
+      var file = e.target.files && e.target.files[0];
+      if(file){ importBackupFile(file); }
+      e.target.value = '';
+    });
+    $('addBtn').addEventListener('click', openAddForm);
+    $('cancelBtn').addEventListener('click', closeForm);
+    $('saveBtn').addEventListener('click', saveForm);
+    $('deleteBtn').addEventListener('click', deletePlayer);
+    $('f_status').addEventListener('change', toggleLoanField);
+    $('f_loanToBuy').addEventListener('change', function(){
+      if($('f_loanToBuy').checked){ $('f_status').value = 'loan'; }
+      toggleLoanField();
+    });
+    $('f_rating').addEventListener('change', enforceAbilityConstraint);
+    $('f_potential').addEventListener('change', enforceAbilityConstraint);
+
+    // keep the live preview card in sync with any field change in the form
+    $('formPanel').addEventListener('input', renderFormPreview);
+    $('formPanel').addEventListener('input', checkDuplicateName);
+    $('formPanel').addEventListener('change', renderFormPreview);
+
+    // dropping onto the list grid's empty background returns a starting player to the active list
+    $('playerGrid').addEventListener('dragover', function(e){ e.preventDefault(); });
+    $('playerGrid').addEventListener('drop', function(e){
+      e.preventDefault();
+      var data = safeParse(e.dataTransfer.getData('text/plain'));
+      if(!data) return;
+      if(data.from && (data.from.indexOf('pitch-') === 0 || data.from === 'unassigned')){
+        moveToList(data.playerId, activeTab);
+      }
+    });
+
+    buildWageStatsSkeleton();
+
+    $('playerSearch').addEventListener('input', function(){
+      searchQuery = $('playerSearch').value;
+      renderGrid();
+    });
+    $('playerSort').addEventListener('change', function(){
+      sortKey = $('playerSort').value;
+      renderGrid();
+    });
+
+    attachCommaFormatting($('wageBudgetInput'));
+    attachCommaFormatting($('f_wage'));
+
+    $('wageBudgetInput').addEventListener('input', function(){
+      state.wageBudget = parseCommaNumber($('wageBudgetInput').value);
+      scheduleSave();
+      updateWageStatsValues();
+    });
+
+    render();
+  }
+
+  loadState();
+
+  // Enables offline caching + "Install app" prompts once this file is hosted
+  // alongside sw.js (see the accompanying service worker). Silently does
+  // nothing when opened as a local file:// or if the browser lacks support.
+  if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')){
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('./sw.js').catch(function(){ /* no sw.js hosted alongside - fine */ });
+    });
+  }
+})();
+</script>
+</body>
+</html>
